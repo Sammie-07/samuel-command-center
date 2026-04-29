@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Samuel — Command Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0C0C0E;--surface:#141416;--surface2:#1C1C20;--border:#242428;
+  --text:#F0EFEA;--muted:#6B6A72;--dim:#3A3940;
+  --god:#1D9E75;--ai:#378ADD;--academic:#D4537E;--youtube:#EF9F27;
+  --self:#639922;--job:#888780;--morning:#7F77DD;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;font-size:13px;line-height:1.5;overscroll-behavior:none}
+.app{max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+
+/* HEADER */
+.hdr{padding:1.1rem 1rem 0.7rem;border-bottom:1px solid var(--border);flex-shrink:0;position:sticky;top:0;background:var(--bg);z-index:10}
+.hdr-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:0.65rem}
+.hdr-name{font-family:'Syne',sans-serif;font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase}
+.hdr-day{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--text);line-height:1}
+.hdr-date{font-size:10px;color:var(--muted);margin-top:1px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--god);animation:blink 2s infinite;margin-top:4px;flex-shrink:0}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.pbar-wrap{display:flex;align-items:center;gap:8px}
+.pbar-track{flex:1;height:2px;background:var(--dim);border-radius:1px}
+.pbar-fill{height:100%;border-radius:1px;background:var(--text);transition:width 0.35s ease}
+.pbar-pct{font-size:10px;color:var(--muted);min-width:28px;text-align:right}
+
+/* NAV */
+.nav{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;flex-shrink:0;position:sticky;top:72px;background:var(--bg);z-index:9}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;padding:10px 13px;cursor:pointer;white-space:nowrap;letter-spacing:0.04em;transition:all 0.15s;flex-shrink:0}
+.nav-btn.active{color:var(--text);border-bottom-color:var(--text)}
+.nav-btn:hover:not(.active){color:#bbb}
+
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding-bottom:2rem}
+
+/* DAY TABS */
+.days{display:flex;gap:4px;padding:0.7rem 1rem;overflow-x:auto;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.day-btn{background:none;border:1px solid var(--border);border-radius:4px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:5px 9px;cursor:pointer;white-space:nowrap;transition:all 0.15s;letter-spacing:0.05em;flex-shrink:0}
+.day-btn.active{background:var(--text);color:var(--bg);border-color:var(--text);font-weight:500}
+
+/* SCHEDULE BLOCKS */
+.block{display:flex;gap:8px;padding:0.5rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.1s;align-items:flex-start;user-select:none}
+.block:active{background:var(--surface2)}
+.block.done .b-title{text-decoration:line-through;opacity:0.35}
+.block.done .b-sub{opacity:0.25}
+.b-time{min-width:60px;font-size:10px;color:var(--muted);padding-top:2px;line-height:1.4;flex-shrink:0}
+.b-dot{width:8px;height:8px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.b-info{flex:1;min-width:0}
+.b-title{font-size:13px;color:var(--text);font-weight:500;line-height:1.35}
+.b-sub{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5}
+.b-tag{display:inline-block;font-size:9px;padding:2px 7px;border-radius:2px;margin-top:4px;letter-spacing:0.06em;text-transform:uppercase}
+.chk{width:18px;height:18px;border-radius:3px;border:1px solid var(--dim);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all 0.15s}
+.chk.done{background:var(--text);border-color:var(--text)}
+.chk svg{opacity:0;transition:opacity 0.1s}
+.chk.done svg{opacity:1}
+
+/* CARDS */
+.banner{margin:0.7rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:0.7rem 1rem}
+.banner-lbl{font-size:9px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
+.banner p{font-size:12px;color:#aaa;line-height:1.6}
+.tip{margin:0.7rem 1rem;background:#0A1E30;border:1px solid #1A3050;border-radius:6px;padding:0.7rem 1rem}
+.tip-yt{background:#1A1200;border-color:#2A2000}
+.tip-lbl{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px}
+.tip p{font-size:12px;color:#aaa;line-height:1.6;margin-bottom:8px}
+.tip-btn{display:block;width:100%;background:none;border:1px solid #1A3050;border-radius:4px;font-family:'DM Mono',monospace;font-size:11px;padding:7px 10px;cursor:pointer;text-align:left;color:#378ADD;transition:background 0.15s}
+.tip-btn:active{background:#0A2540}
+.tip-yt .tip-btn{border-color:#2A2000;color:#EF9F27}
+.tip-yt .tip-btn:active{background:#221800}
+
+/* PHASE TABS */
+.phase-tabs{display:flex;gap:4px;padding:0.7rem 1rem;overflow-x:auto;scrollbar-width:none}
+.phase-tabs::-webkit-scrollbar{display:none}
+.phase-btn{background:none;border:1px solid var(--border);border-radius:4px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:5px 9px;cursor:pointer;white-space:nowrap;transition:all 0.15s;letter-spacing:0.04em;flex-shrink:0}
+.phase-btn.yt-active{background:var(--youtube);color:#0C0C0E;border-color:var(--youtube);font-weight:500}
+.phase-btn.ai-active{font-weight:500}
+
+/* TASK ITEMS */
+.tl-item{padding:0.7rem 1rem;border-bottom:1px solid var(--border)}
+.tl-month{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.tl-task{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px;cursor:pointer;user-select:none}
+.tl-task:last-child{margin-bottom:0}
+.tl-chk{width:14px;height:14px;border-radius:2px;border:1px solid var(--dim);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.tl-title{font-size:12px;color:var(--text);line-height:1.4;flex:1}
+.tl-title.done{text-decoration:line-through;opacity:0.35}
+.tl-detail{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5}
+.badge{font-size:9px;padding:2px 6px;border-radius:2px;margin-left:5px;text-transform:uppercase;letter-spacing:0.05em;display:inline-block;vertical-align:middle}
+.p-crit{background:#2A0808;color:#E24B4A}
+.p-high{background:#2A1A05;color:#EF9F27}
+.p-med{background:#0A1E30;color:#378ADD}
+
+/* PHASE CARD */
+.phase-card{margin:0 1rem 0.7rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--youtube);border-radius:6px;overflow:hidden}
+.phase-hdr{padding:0.6rem 1rem;border-bottom:1px solid var(--border)}
+.phase-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text)}
+.phase-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.phase-goal{font-size:11px;color:var(--youtube);padding:0.45rem 1rem;border-bottom:1px solid var(--border)}
+.yt-task{display:flex;gap:8px;padding:0.5rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.1s;align-items:flex-start;user-select:none}
+.yt-task:last-child{border-bottom:none}
+.yt-task:active{background:var(--surface2)}
+.yt-day{font-size:9px;color:var(--dim);min-width:54px;padding-top:2px;letter-spacing:0.03em;line-height:1.4;flex-shrink:0}
+.yt-info{flex:1}
+.yt-title{font-size:12px;color:var(--text);line-height:1.35}
+.yt-title.done{text-decoration:line-through;opacity:0.35}
+.yt-detail{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5}
+.yt-dlv{font-size:10px;color:var(--youtube);margin-top:3px;line-height:1.4}
+
+/* CHANNELS */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0.7rem 1rem}
+.ch-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:0.6rem 0.7rem}
+.ch-name{font-size:11px;color:var(--text);font-weight:500;margin-bottom:2px}
+.ch-niche{font-size:10px;color:var(--muted);line-height:1.4}
+
+/* STATS */
+.stats4{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0.7rem 1rem}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:0.6rem 0.7rem}
+.stat-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;line-height:1}
+.stat-lbl{font-size:10px;color:var(--muted);margin-top:3px;letter-spacing:0.04em}
+
+/* CODE */
+.code{margin:0 1rem 0.7rem;background:#0A0A0C;border:1px solid var(--border);border-radius:6px;padding:0.7rem 1rem;font-size:10px;color:#7FB3D3;line-height:1.7;overflow-x:auto;white-space:pre-wrap}
+.code .cm{color:var(--dim)}
+
+/* SECTION HDR */
+.shdr{padding:0.5rem 1rem 0.2rem;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+
+/* METRIC ROW */
+.mrow{display:flex;justify-content:space-between;align-items:center;padding:8px 1rem;border-bottom:1px solid var(--border)}
+.mrow:last-child{border-bottom:none}
+.mrow-lbl{font-size:11px;color:var(--muted)}
+.mrow-val{font-size:12px;color:var(--text);font-weight:500}
+
+/* PROGRAM ROW */
+.prog{display:flex;gap:8px;padding:0.5rem 1rem;border-bottom:1px solid var(--border);align-items:flex-start}
+.prog-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.prog-name{font-size:12px;color:var(--text);font-weight:500;line-height:1.35}
+.prog-school{font-size:11px;color:var(--muted);margin-top:1px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hdr">
+    <div class="hdr-top">
+      <div>
+        <div class="hdr-name">Samuel Akinwande</div>
+        <div class="hdr-day" id="hdr-day"></div>
+        <div class="hdr-date" id="hdr-date"></div>
+      </div>
+      <div class="live-dot"></div>
+    </div>
+    <div class="pbar-wrap">
+      <div class="pbar-track"><div class="pbar-fill" id="pbar" style="width:0%"></div></div>
+      <div class="pbar-pct" id="pbar-pct">0%</div>
+    </div>
+  </div>
+  <div class="nav">
+    <button class="nav-btn active" onclick="sw('schedule',this)">Today</button>
+    <button class="nav-btn" onclick="sw('youtube',this)">YouTube</button>
+    <button class="nav-btn" onclick="sw('academia',this)">Academia</button>
+    <button class="nav-btn" onclick="sw('ai',this)">AI Biz</button>
+    <button class="nav-btn" onclick="sw('overview',this)">Overview</button>
+  </div>
+  <div class="content">
+    <div id="view-schedule"></div>
+    <div id="view-youtube" style="display:none"></div>
+    <div id="view-academia" style="display:none"></div>
+    <div id="view-ai" style="display:none"></div>
+    <div id="view-overview" style="display:none"></div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const TODAY = new Date();
+const DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const DAY_SHORT  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MONTHS     = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+const C = {
+  god:     {dot:'#1D9E75', tag:'#0A2B1E', tc:'#1D9E75', lbl:'God'},
+  morning: {dot:'#7F77DD', tag:'#1A1830', tc:'#7F77DD', lbl:'Morning'},
+  ai:      {dot:'#378ADD', tag:'#0A1E30', tc:'#378ADD', lbl:'AI Biz'},
+  academic:{dot:'#D4537E', tag:'#2A1020', tc:'#D4537E', lbl:'Academia'},
+  youtube: {dot:'#EF9F27', tag:'#2A1A05', tc:'#EF9F27', lbl:'YouTube'},
+  self:    {dot:'#639922', tag:'#142205', tc:'#639922', lbl:'Self Dev'},
+  job:     {dot:'#888780', tag:'#1A1A1A', tc:'#888780', lbl:'Work'},
+  buffer:  {dot:'#3A3940', tag:'#1A1A1A', tc:'#6B6A72', lbl:'Buffer'},
+};
+
+const WD = [
+  {t:'6:00',e:'6:15', cat:'morning',  title:'Wake — hydrate, cold water',         sub:'No phone. Water first. Body on.'},
+  {t:'6:15',e:'7:00', cat:'god',      title:'Word of God + Prayer',               sub:'Bible study. Pray. Non-negotiable — sets the tone.'},
+  {t:'7:00',e:'7:45', cat:'self',     title:'Gym',                                sub:'Strength or cardio. Walk if needed. Sweat daily.'},
+  {t:'7:45',e:'8:00', cat:'self',     title:'Grooming + podcast',                 sub:'Get dressed sharp. AI or neuroscience podcast.'},
+  {t:'8:00',e:'10:00',cat:'ai',       title:'Deep work — AI biz',                 sub:'Outreach, builds, client work. Go outside — café or park bench.'},
+  {t:'10:00',e:'11:30',cat:'academic',title:'Academia block',                     sub:'Python phases, systematic review, supervisor emails, SOPs.'},
+  {t:'11:30',e:'12:30',cat:'youtube', title:'YouTube — content machine',           sub:'Mon/Thu: run pipeline. Tue/Fri: review + approve Telegram output.'},
+  {t:'12:30',e:'13:15',cat:'self',    title:'Lunch + reading',                    sub:'Away from screen. 15–20 pages.'},
+  {t:'13:15',e:'14:30',cat:'academic',title:'Academia block 2 / catch-up',        sub:'Heavy week? Use for job prep. Otherwise Python or preprint.'},
+  {t:'14:30',e:'15:00',cat:'buffer',  title:'Transition — pre-work wind down',    sub:'Close personal tasks. Brief walk. Review work agenda.'},
+  {t:'15:00',e:'21:00',cat:'job',     title:'Job — 6 hours',                      sub:'Deep focus. Log off at 9pm sharp.'},
+  {t:'21:00',e:'21:30',cat:'morning', title:'Decompress',                         sub:'Walk. Breathe. Reset.'},
+  {t:'21:30',e:'22:15',cat:'god',     title:'Evening prayer + journal',           sub:'Close with God. 3 things. Review tomorrow.'},
+  {t:'22:15',e:'00:00',cat:'self',    title:'Wind down + sleep prep',             sub:'No screens. Lights out midnight.'},
+  {t:'00:00',e:'06:00',cat:'morning', title:'Sleep — 6 hours',                   sub:'Protect this.'},
+];
+
+const WED = [
+  {t:'6:00',e:'6:15', cat:'morning',  title:'Wake — hydrate',                    sub:'Water first. No phone.'},
+  {t:'6:15',e:'7:00', cat:'god',      title:'Word of God + Prayer',              sub:'Non-negotiable. Start anchored.'},
+  {t:'7:00',e:'7:45', cat:'self',     title:'Gym',                               sub:'Shorter session — still get it done.'},
+  {t:'7:45',e:'8:00', cat:'self',     title:'Grooming + podcast',                sub:'Sharp. Intentional.'},
+  {t:'8:00',e:'9:30', cat:'ai',       title:'Deep work — AI biz',                sub:'Tighter Wednesday. Use it hard. Walk to a nearby spot.'},
+  {t:'9:30',e:'10:30',cat:'academic', title:'Academia block',                    sub:'Python, systematic review, McCall MacBain prep.'},
+  {t:'10:30',e:'11:15',cat:'youtube', title:'YouTube — check Telegram approvals',sub:'Approve pipeline output. Fix any failed videos.'},
+  {t:'11:15',e:'12:00',cat:'buffer',  title:'Admin + job prep',                  sub:'Emails. Prep 2pm meeting — review agenda and notes.'},
+  {t:'12:00',e:'13:00',cat:'self',    title:'Lunch + reading',                   sub:'Decompress before the long work day.'},
+  {t:'13:00',e:'13:50',cat:'buffer',  title:'Transition block',                  sub:'Meeting materials. Set up environment.'},
+  {t:'14:00',e:'15:00',cat:'job',     title:'Job — meeting block',               sub:'Wednesday meeting starts 2pm.'},
+  {t:'15:00',e:'16:00',cat:'buffer',  title:'Break hour (job)',                  sub:'Walk. Personal urgent catch-up if needed.'},
+  {t:'16:00',e:'21:00',cat:'job',     title:'Job continues',                     sub:'Until 9pm.'},
+  {t:'21:00',e:'21:30',cat:'morning', title:'Decompress',                        sub:'Reset after long day.'},
+  {t:'21:30',e:'22:15',cat:'god',     title:'Evening prayer + journal',          sub:'Close with God.'},
+  {t:'22:15',e:'00:00',cat:'self',    title:'Wind down',                         sub:'Lights out midnight.'},
+  {t:'00:00',e:'06:00',cat:'morning', title:'Sleep — 6 hours',                  sub:'Protect it.'},
+];
+
+const WKD = [
+  {t:'7:00',e:'7:15', cat:'morning',  title:'Wake — hydrate',                    sub:'Slightly later. Still intentional.'},
+  {t:'7:15',e:'8:15', cat:'god',      title:'Word of God + Prayer',              sub:'Longer session. Worship, intercession, study.'},
+  {t:'8:15',e:'9:15', cat:'self',     title:'Gym — full session',                sub:'No rush. Go hard. Sunday: lighter if needed.'},
+  {t:'9:15',e:'9:45', cat:'self',     title:'Breakfast + podcast',               sub:'Cook real food. AI or neuroscience podcast.'},
+  {t:'9:45',e:'12:30',cat:'ai',       title:'Deep AI work — long block',         sub:'Build a tool, client deliverable, automation. Your weekend runway.'},
+  {t:'12:30',e:'13:30',cat:'self',    title:'Lunch + reading',                   sub:'Step away. 20–30 pages. Real break.'},
+  {t:'13:30',e:'15:30',cat:'youtube', title:'YouTube — content machine batch',   sub:'Sat: deploy pipeline, generate week\'s videos, review. Sun: approve queue, tune prompts.'},
+  {t:'15:30',e:'17:30',cat:'academic',title:'Academia — long block',             sub:'SOP drafts, Python phases, systematic review, preprint push.'},
+  {t:'17:30',e:'19:00',cat:'self',    title:'Go out — deliberate change of scene',sub:'Walk to a café, park, anywhere. No car needed. This protects your energy.'},
+  {t:'19:00',e:'20:30',cat:'ai',      title:'AI learning / portfolio build',     sub:'Course, new tool, GitHub push, case study write-up.'},
+  {t:'20:30',e:'21:30',cat:'morning', title:'Dinner + decompress',               sub:'No work. Just be.'},
+  {t:'21:30',e:'22:30',cat:'god',     title:'Evening prayer + weekly review',    sub:'Sunday: full weekly review. What moved? What changes?'},
+  {t:'22:30',e:'01:00',cat:'self',    title:'Wind down',                         sub:'Read. No screens. Sleep by 1am.'},
+  {t:'01:00',e:'07:00',cat:'morning', title:'Sleep — 6 hours',                  sub:'Protect it.'},
+];
+
+const YT_PHASES = [
+  {id:'w1',lbl:'Week 1',title:'Foundation',dates:'May 3–9',
+   goal:'Type a headline → get a polished script. No manual steps.',
+   tasks:[
+    {id:'yt1',day:'Sat May 3',title:'Environment + news scraper',
+     detail:'Install Python, VS Code, Claude Code. Create content-machine project. Sign up for Anthropic, ElevenLabs, Pexels, YouTube Data API keys. Build RSS scraper → SQLite.',
+     dlv:'Scraper running locally, pulling real headlines'},
+    {id:'yt2',day:'Sun May 4',title:'Script generator',
+     detail:'Build Stage 2: Claude API generator with 4 niche-specific system prompts. Headline in → polished 45-sec script out. Save everything to database.',
+     dlv:'Scripts auto-generating from real headlines'},
+    {id:'yt3',day:'Mon–Fri\n1hr/eve',title:'12 accounts + prompt tuning',
+     detail:'Create 4 YouTube, 4 TikTok, 4 IG accounts. Design logos in Canva. Generate 20 test scripts and review quality.',
+     dlv:'12 accounts live, prompts refined'},
+  ]},
+  {id:'w2',lbl:'Week 2',title:'Video builder',dates:'May 10–16',
+   goal:'Full pipeline end-to-end. Headline in → finished video out. Zero manual steps.',
+   tasks:[
+    {id:'yt4',day:'Sat May 10',title:'Voiceover + stock footage',
+     detail:'Build Stage 3a: ElevenLabs voiceover from script. One consistent voice per channel. Build Stage 3b: Pexels keyword extractor + clip downloader.',
+     dlv:'Audio + footage auto-generated from any script'},
+    {id:'yt5',day:'Sun May 11',title:'FFmpeg assembly + captions',
+     detail:'Build Stage 3c: FFmpeg pipeline. Stitch footage to audio length. Burn in animated word-by-word captions. Add logo watermark. Export 1080×1920 MP4.',
+     dlv:'First real finished video file'},
+    {id:'yt6',day:'Mon–Fri\n1hr/eve',title:'Quality iteration — 10 test videos',
+     detail:'Generate 10 test videos. Watch critically. Fix caption timing, footage relevance, voice pacing. Get honest feedback from someone you trust.',
+     dlv:'10 polished videos banked'},
+  ]},
+  {id:'w3',lbl:'Week 3',title:'Publishing + bot',dates:'May 17–23',
+   goal:'Wake up. Open Telegram. Tap approve. Go back to sleep.',
+   tasks:[
+    {id:'yt7',day:'Sat May 17',title:'YouTube auto-publish',
+     detail:'Set up YouTube Data API OAuth for all 4 channels — use separate Google accounts (critical — one AdSense suspension won\'t kill all channels). Build upload script.',
+     dlv:'Video auto-uploads to YouTube hands-free'},
+    {id:'yt8',day:'Sun May 18',title:'Telegram approval bot',
+     detail:'Build bot: 8am daily message, one card per video, Approve/Reject buttons. Approved videos queue for publish. Error alerts when pipeline fails overnight.',
+     dlv:'Tap approve on your phone → video goes live'},
+    {id:'yt9',day:'Mon–Fri\n1hr/eve',title:'VPS deploy + cron job',
+     detail:'Deploy to DigitalOcean VPS (~$6/mo). Cron job at 6am daily. End-to-end test 3 mornings in a row. Fix server bugs.',
+     dlv:'Pipeline runs without your laptop being on'},
+  ]},
+  {id:'w4',lbl:'Week 4',title:'Launch',dates:'May 24–31',
+   goal:'Content live daily. Affiliate links earning. Pipeline fully hands-off.',
+   tasks:[
+    {id:'yt10',day:'Sat May 24',title:'All 12 accounts go live',
+     detail:'Post first 3 videos across all 4 channels simultaneously. Don\'t wait for perfect — ship it. Monitor Telegram for errors.',
+     dlv:'12 channels live, content publishing daily'},
+    {id:'yt11',day:'Week 4',title:'Affiliate links setup',
+     detail:'Apply: BetterHelp (psychology), Piggyvest + Wise (finance), Jasper/ElevenLabs (AI), LegalZoom (legal). Add to all bios. Pipeline auto-inserts affiliate CTA.',
+     dlv:'Earning before YouTube pays a cent'},
+  ]},
+  {id:'m2',lbl:'Month 2–3',title:'Growth + YPP',dates:'June–July',
+   goal:'1–2 channels in YPP. First affiliate commissions. First brand deal outreach sent.',
+   tasks:[
+    {id:'yt12',day:'June–July',title:'Add long-form per channel per week',
+     detail:'Stitch Shorts scripts into 5–8 min videos. Builds 4,000 watch hours needed for YPP while Shorts build subscribers. Both tracks parallel.',
+     dlv:'YPP progress across all 4 channels'},
+    {id:'yt13',day:'June–July',title:'Analytics tracker',
+     detail:'Weekly Telegram report of top 3 videos per channel. Make more of what\'s working.',
+     dlv:'Data-driven content decisions'},
+  ]},
+  {id:'m4',lbl:'Month 4–6',title:'Full monetisation',dates:'Aug–Oct',
+   goal:'$1,000–$3,000/month. ~5 mins of daily work. A real business.',
+   tasks:[
+    {id:'yt14',day:'Aug–Oct',title:'All 4 channels in YPP',
+     detail:'Ads + affiliates running passively. Pitch 5 brands per month per channel. Target $200–$600 per brand deal.',
+     dlv:'$1K–$3K/month passive income'},
+  ]},
+];
+
+const ACADEMIA = [
+  {month:'April–May 2026', tasks:[
+    {id:'ac1',p:'crit',title:'Start Python Phase 1', detail:'CS50P + Kaggle. NumPy, Pandas, Matplotlib, SciPy. 1hr/day minimum.'},
+    {id:'ac2',p:'crit',title:'Email 6 McGill supervisors by May 15', detail:'IPN + Psychiatry + Psychology. 4-sentence personalised emails. Reference CALHM2 poster.'},
+    {id:'ac3',p:'crit',title:'Email CALHM2 poster PI', detail:'Offer to write manuscript sections. Even 4th authorship is transformative.'},
+    {id:'ac4',p:'crit',title:'Register systematic review on PROSPERO', detail:'TBI neuropsychological outcomes in sub-Saharan Africa OR CALHM2 and Alzheimer\'s risk.'},
+    {id:'ac5',p:'high',title:'Confirm English language exemption', detail:'Email McGill graduate admissions and IPN. Get written confirmation.'},
+    {id:'ac6',p:'high',title:'Check NeuroData 2026–27 application date', detail:'Contact admissions@neurodata-master.org. Confirm if final cohort.'},
+  ]},
+  {month:'June 2026', tasks:[
+    {id:'ac7',p:'crit',title:'McCall MacBain opens June 1 — START IMMEDIATELY', detail:'Full tuition + $2,300 CAD/month. Deadline Aug 19. Canada\'s largest leadership scholarship.'},
+    {id:'ac8',p:'crit',title:'Python Phase 1 complete → begin Phase 2', detail:'MNE-Python and nilearn. Load EEG data. Begin nilearn fMRI analysis.'},
+    {id:'ac9',p:'crit',title:'Systematic review: full search + screening', detail:'Export to Rayyan. Screen 50 titles/day. PRISMA flow diagram done by end June.'},
+    {id:'ac10',p:'high',title:'R intermediate project on GitHub', detail:'Mixed-effects model. Clean ggplot2 viz. README.'},
+    {id:'ac11',p:'med', title:'Write 500-word master research statement', detail:'Nigerian training → UCH → CALHM2 → comp. neuro → vision. Every SOP adapts this.'},
+  ]},
+  {month:'July 2026', tasks:[
+    {id:'ac12',p:'crit',title:'McCall MacBain essays — final draft', detail:'Leadership essay: Millennium Fellowship, NAPS, Psych-Walk, Asido, BHI. Deadline Aug 19.'},
+    {id:'ac13',p:'crit',title:'Systematic review: data extraction + quality assessment', detail:'CASP or Newcastle-Ottawa Scale. Analysis-ready by end July.'},
+    {id:'ac14',p:'high',title:'Python Phase 2 → Phase 3', detail:'scikit-learn classification pipeline. Classify neuroimaging features.'},
+    {id:'ac15',p:'high',title:'Request letters of recommendation', detail:'Ask Prof. Okhakhume + one senior academic. 1-page brief with deadlines.'},
+    {id:'ac16',p:'med', title:'Begin Mastercard Foundation statement draft', detail:'Academic history, leadership, contribution to Africa\'s sustainable future.'},
+  ]},
+  {month:'August 2026', tasks:[
+    {id:'ac17',p:'crit',title:'Submit McCall MacBain by Aug 19 — HARD DEADLINE', detail:'All materials: leadership essays, academic record, two references. Do not miss this.'},
+    {id:'ac18',p:'crit',title:'Systematic review preprint posted', detail:'PsyArXiv or bioRxiv. Target: Neuropsychology Review, Brain and Behavior.'},
+    {id:'ac19',p:'high',title:'CALHM2 manuscript: push team for preprint', detail:'Follow up with PI. Polish intro, write abstract, format references.'},
+    {id:'ac20',p:'high',title:'GitHub portfolio: 3+ neuroscience data projects', detail:'Clean code, descriptive READMEs. Committees Google applicants.'},
+  ]},
+  {month:'September 2026', tasks:[
+    {id:'ac21',p:'crit',title:'Cambridge application — submit in first 2 weeks', detail:'Opt in for Mastercard Foundation. 300-word PS, two references, transcript.'},
+    {id:'ac22',p:'crit',title:'NeuroData application — submit Round 1', detail:'First-round = maximum scholarship consideration. Specify Padua (Cog. Neuro) track.'},
+    {id:'ac23',p:'crit',title:'Confirm McGill supervisor agreement by Sept 15', detail:'Must have explicit email agreement before submitting. Hard blocker.'},
+    {id:'ac24',p:'high',title:'Begin McGill MSc SOPs', detail:'Para 1: supervisor + research question. Para 2: training. Para 3: why McGill.'},
+  ]},
+  {month:'Oct–Jan 2027', tasks:[
+    {id:'ac25',p:'crit',title:'McGill MSc Psychology SOP final — submit Nov 10', detail:'All docs uploaded by Nov 15. Chase referees first week of October.'},
+    {id:'ac26',p:'crit',title:'Dec: Cambridge MPhil — SUBMIT', detail:'Mastercard Foundation scholarship statement included.'},
+    {id:'ac27',p:'high',title:'Dec 31: NeuroAI paper to bioRxiv', detail:'Listed on Jan 15 McGill applications.'},
+    {id:'ac28',p:'crit',title:'Jan 15: McGill IPN MSc — SUBMIT', detail:'Named supervisor, SOP referencing their work, all docs.'},
+    {id:'ac29',p:'crit',title:'Jan 15: McGill MSc Mental Health — SUBMIT', detail:'Individually tailored SOP.'},
+  ]},
+];
+
+const AI_WEEKS = [
+  {lbl:'W1', title:'Build your foundation', color:'#378ADD',
+   goal:'Get everything in place before talking to a single client.',
+   tasks:[
+    {id:'ai1',day:'Day 1–2', title:'Write your one-sentence offer'},
+    {id:'ai2',day:'Day 3–4', title:'Build portfolio page — Carrd or Notion'},
+    {id:'ai3',day:'Day 5–6', title:'Document GFunnel, Pipedex, Gogo\'s as case studies'},
+    {id:'ai4',day:'Day 7',   title:'LinkedIn headline + Apollo/Hunter for outreach'},
+  ]},
+  {lbl:'W2', title:'Warm outreach first', color:'#1D9E75',
+   goal:'Talk to real humans. Get your first conversation.',
+   tasks:[
+    {id:'ai5',day:'Day 8–9',   title:'Mine every contact — WhatsApp, LinkedIn, email'},
+    {id:'ai6',day:'Day 10–12', title:'20 LinkedIn cold outreach to UK/US agency owners'},
+    {id:'ai7',day:'Day 13–14', title:'Follow up + offer free 30-min Operations Audit'},
+  ]},
+  {lbl:'W3', title:'Get on calls — close first client', color:'#EF9F27',
+   goal:'Convert conversations into paid projects.',
+   tasks:[
+    {id:'ai8',day:'Day 15–17', title:'Run audit calls — listen 80%, talk 20%'},
+    {id:'ai9',day:'Day 18–19', title:'Send proposals — $1,500–$3,000 first build'},
+    {id:'ai10',day:'Day 20–21',title:'Handle objections + close'},
+  ]},
+  {lbl:'W4', title:'Deliver + plant seeds', color:'#D4537E',
+   goal:'Wow your first client. Build your referral engine.',
+   tasks:[
+    {id:'ai11',day:'Day 22–26',title:'Deliver exceptional first build'},
+    {id:'ai12',day:'Day 27–28',title:'Offer the referral deal'},
+    {id:'ai13',day:'Day 29–30',title:'Double outreach — 40 messages'},
+  ]},
+];
+
+// ─── STATE (persisted) ───────────────────────────────────────────────────────
+
+function load(k, def) {
+  try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; }
+  catch(e) { return def; }
+}
+function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+
+let sChecked   = load('sc_checked', {});
+let acChecked  = load('ac_checked', {});
+let aiChecked  = load('ai_checked', {});
+let ytChecked  = load('yt_checked', {});
+let currentDay = load('current_day', TODAY.getDay());
+let ytPhase    = load('yt_phase', 0);
+let aiWeek     = load('ai_week', 0);
+let currentView = 'schedule';
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+
+function getSched(d) {
+  if (d === 3) return WED;
+  if (d === 0 || d === 6) return WKD;
+  return WD;
+}
+
+function chkSVG(color) {
+  return `<svg width="9" height="7" viewBox="0 0 9 7" fill="none">
+    <path d="M1 3.5L3.5 6L8 1" stroke="${color||'#0C0C0E'}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+}
+
+function dayTab(i) {
+  return `<button class="day-btn ${i===currentDay?'active':''}" onclick="switchDay(${i})">${DAY_SHORT[i]}</button>`;
+}
+
+// ─── RENDER HEADER ───────────────────────────────────────────────────────────
+
+function renderHdr() {
+  const s = getSched(currentDay);
+  const done = s.filter((_,i) => sChecked[currentDay+'_'+i]).length;
+  const pct  = s.length ? Math.round(done/s.length*100) : 0;
+  document.getElementById('pbar').style.width = pct+'%';
+  document.getElementById('pbar-pct').textContent = pct+'%';
+  document.getElementById('hdr-day').textContent  = DAY_NAMES[currentDay];
+  document.getElementById('hdr-date').textContent = MONTHS[TODAY.getMonth()]+' '+TODAY.getDate()+', '+TODAY.getFullYear();
+}
+
+// ─── VIEW SWITCHER ───────────────────────────────────────────────────────────
+
+function sw(v, btn) {
+  currentView = v;
+  ['schedule','youtube','academia','ai','overview'].forEach(x => {
+    document.getElementById('view-'+x).style.display = x===v ? 'block' : 'none';
+  });
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renders[v]();
+}
+
+// ─── SCHEDULE ────────────────────────────────────────────────────────────────
+
+function renderSchedule() {
+  renderHdr();
+  const isWed = currentDay === 3;
+  const isWkd = currentDay === 0 || currentDay === 6;
+  const s = getSched(currentDay);
+  let h = '';
+
+  // Day tabs
+  h += `<div class="days">${DAY_SHORT.map((_,i)=>dayTab(i)).join('')}</div>`;
+
+  // Outside tip
+  const tip = isWkd
+    ? 'Weekend: deliberate outing blocked 5:30–7pm. Walk to a café, park, anywhere. Home isolation kills creative energy.'
+    : isWed
+    ? 'Wednesday is tighter. Get outside 8–9:30am for your AI block. Walk to a nearby spot.'
+    : 'Get your 8–10am AI block outside. Café or park bench. Breaks the home-drain cycle before your 3pm job.';
+  h += `<div class="banner" style="border-left:3px solid var(--muted)"><div class="banner-lbl">Go outside tip</div><p>${tip}</p></div>`;
+
+  // Blocks
+  s.forEach((b, i) => {
+    const c = C[b.cat];
+    const done = !!sChecked[currentDay+'_'+i];
+    h += `<div class="block ${done?'done':''}" onclick="toggleSched(${i})">
+      <div class="b-time">${b.t}<br>${b.e}</div>
+      <div class="b-dot" style="background:${c.dot}"></div>
+      <div class="b-info">
+        <div class="b-title">${b.title}</div>
+        <div class="b-sub">${b.sub}</div>
+        <span class="b-tag" style="background:${c.tag};color:${c.tc}">${c.lbl}</span>
+      </div>
+      <div class="chk ${done?'done':''}">${chkSVG('#0C0C0E')}</div>
+    </div>`;
+  });
+
+  // Tip
+  const tips = {
+    0:'Weekend = build time. Ship an automation, batch YouTube, or push academic work.',
+    1:'Monday: run AI biz outreach. Open Claude and draft 20 LinkedIn messages.',
+    2:'Tuesday: YouTube script day. Claude can outline a full faceless video in 5 minutes.',
+    3:'Wednesday meeting day. Use Claude to prep talking points in 2 minutes.',
+    4:'Thursday: AI build day. Use Claude Code for the current client\'s workflow.',
+    5:'Friday: wrap the week. Push GitHub, send follow-ups, review masterplan progress.',
+    6:'Sunday: weekly review. What moved forward? What didn\'t?',
+  };
+  h += `<div class="tip"><div class="tip-lbl" style="color:#378ADD">Claude — today</div><p>${tips[currentDay]}</p></div>`;
+
+  document.getElementById('view-schedule').innerHTML = h;
+}
+
+function toggleSched(i) {
+  const k = currentDay+'_'+i;
+  sChecked[k] = !sChecked[k];
+  save('sc_checked', sChecked);
+  renderSchedule();
+}
+
+function switchDay(d) {
+  currentDay = d;
+  save('current_day', d);
+  renderSchedule();
+}
+
+// ─── YOUTUBE ─────────────────────────────────────────────────────────────────
+
+function renderYouTube() {
+  const ph = YT_PHASES[ytPhase];
+  let h = '';
+
+  // Phase tabs
+  h += `<div class="phase-tabs">${YT_PHASES.map((p,i)=>
+    `<button class="phase-btn ${i===ytPhase?'yt-active':''}" onclick="switchYtPhase(${i})">${p.lbl}</button>`
+  ).join('')}</div>`;
+
+  // Phase card
+  h += `<div class="phase-card">
+    <div class="phase-hdr">
+      <div class="phase-title">${ph.title}</div>
+      <div class="phase-sub">${ph.dates}</div>
+    </div>
+    <div class="phase-goal">Goal: ${ph.goal}</div>`;
+
+  ph.tasks.forEach(t => {
+    const done = !!ytChecked[t.id];
+    h += `<div class="yt-task" onclick="toggleYt('${t.id}')">
+      <div class="tl-chk" style="${done?'background:#EF9F27;border-color:#EF9F27':''}">${done?chkSVG('#0C0C0E'):''}</div>
+      <div class="yt-day">${t.day.replace('\n','<br>')}</div>
+      <div class="yt-info">
+        <div class="yt-title ${done?'done':''}">${t.title}</div>
+        <div class="yt-detail">${t.detail}</div>
+        <div class="yt-dlv">→ ${t.dlv}</div>
+      </div>
+    </div>`;
+  });
+  h += `</div>`;
+
+  // 4 channels
+  h += `<div class="shdr">Your 4 channel niches</div>
+  <div class="grid2">
+    <div class="ch-card"><div class="ch-name">AI &amp; Tech Shorts</div><div class="ch-niche">AI tools, automation, future of work</div></div>
+    <div class="ch-card"><div class="ch-name">Psychology &amp; Mind</div><div class="ch-niche">Mental health, behaviour, neuroscience</div></div>
+    <div class="ch-card"><div class="ch-name">Personal Finance</div><div class="ch-niche">Money, investing, financial literacy</div></div>
+    <div class="ch-card"><div class="ch-name">Legal Essentials</div><div class="ch-niche">Rights, contracts, everyday law</div></div>
+  </div>`;
+
+  // Day 1 command (Week 1 only)
+  if (ytPhase === 0) {
+    h += `<div class="shdr">Day 1 command — paste into Claude Code</div>
+    <div class="code"><span class="cm"># Run this in Claude Code — Saturday May 3</span>
+
+"Create a Python project called content-machine
+with folders: scrapers/, scripts/, videos/,
+captions/, publisher/, analytics/.
+Add a .env.example listing:
+ANTHROPIC_API_KEY, ELEVENLABS_API_KEY,
+PEXELS_API_KEY, YOUTUBE_CLIENT_SECRET,
+TELEGRAM_BOT_TOKEN.
+Install: requests, feedparser, anthropic,
+python-dotenv, sqlite3."</div>`;
+  }
+
+  h += `<div class="tip tip-yt"><div class="tip-lbl" style="color:#EF9F27">Claude Code is your build partner</div>
+    <p>Every stage — scraper, script generator, FFmpeg assembly, Telegram bot, VPS deploy — can be built with Claude Code. Open it, paste the instruction, run the output, paste errors back. That&#39;s the loop.</p>
+    <button class="tip-btn">Build Stage 1 with Claude Code ↗</button>
+  </div>`;
+
+  document.getElementById('view-youtube').innerHTML = h;
+}
+
+function switchYtPhase(i) { ytPhase = i; save('yt_phase', i); renderYouTube(); }
+function toggleYt(id) { ytChecked[id] = !ytChecked[id]; save('yt_checked', ytChecked); renderYouTube(); }
+
+// ─── ACADEMIA ────────────────────────────────────────────────────────────────
+
+function renderAcademia() {
+  let h = `<div class="banner" style="border-left:3px solid #D4537E">
+    <div class="banner-lbl">Next critical deadline</div>
+    <p>McCall MacBain opens <strong>June 1, 2026</strong> — Canada&#39;s largest leadership scholarship. Full tuition + $2,300 CAD/month. Your profile (Millennium Fellowship, NAPS, BHI) is exactly what they want. Start essays in May.</p>
+  </div>`;
+
+  ACADEMIA.forEach(month => {
+    h += `<div class="tl-item"><div class="tl-month">${month.month}</div>`;
+    month.tasks.forEach(t => {
+      const done = !!acChecked[t.id];
+      const pc = t.p==='crit'?'p-crit':t.p==='high'?'p-high':'p-med';
+      const pl = t.p==='crit'?'Critical':t.p==='high'?'High':'Med';
+      h += `<div class="tl-task" onclick="toggleAc('${t.id}')">
+        <div class="tl-chk" style="${done?'background:#D4537E;border-color:#D4537E':''}">${done?chkSVG('#fff'):''}</div>
+        <div style="flex:1">
+          <div class="tl-title ${done?'done':''}">${t.title}<span class="badge ${pc}">${pl}</span></div>
+          <div class="tl-detail">${t.detail}</div>
+        </div>
+      </div>`;
+    });
+    h += `</div>`;
+  });
+
+  h += `<div class="tip"><div class="tip-lbl" style="color:#378ADD">Claude can help with academia</div>
+    <p>Draft supervisor cold emails, McCall MacBain leadership essays, SOP paragraphs, systematic review outlines, and Python code for milestone projects.</p>
+    <button class="tip-btn">Draft a supervisor email ↗</button>
+  </div>`;
+
+  document.getElementById('view-academia').innerHTML = h;
+}
+
+function toggleAc(id) { acChecked[id] = !acChecked[id]; save('ac_checked', acChecked); renderAcademia(); }
+
+// ─── AI BIZ ──────────────────────────────────────────────────────────────────
+
+function renderAI() {
+  const w = AI_WEEKS[aiWeek];
+  let h = '';
+
+  h += `<div class="phase-tabs">${AI_WEEKS.map((wk,i)=>
+    `<button class="phase-btn ${i===aiWeek?'ai-active':''}" style="${i===aiWeek?'background:'+wk.color+';color:#0C0C0E;border-color:'+wk.color:''}" onclick="switchAiWeek(${i})">${wk.lbl}</button>`
+  ).join('')}</div>`;
+
+  h += `<div class="phase-card" style="border-left-color:${w.color}">
+    <div class="phase-hdr"><div class="phase-title">${w.lbl}: ${w.title}</div></div>
+    <div class="phase-goal" style="color:${w.color}">${w.goal}</div>`;
+
+  w.tasks.forEach(t => {
+    const done = !!aiChecked[t.id];
+    h += `<div class="yt-task" onclick="toggleAi('${t.id}')">
+      <div class="tl-chk" style="${done?'background:'+w.color+';border-color:'+w.color:''}">${done?chkSVG('#0C0C0E'):''}</div>
+      <div class="yt-day">${t.day}</div>
+      <div class="yt-title ${done?'done':''}" style="flex:1">${t.title}</div>
+    </div>`;
+  });
+  h += `</div>`;
+
+  h += `<div class="shdr">30-day success metrics</div>`;
+  [['Outreach messages sent','100+ / 30 days'],
+   ['Audit calls booked','5–10 / 30 days'],
+   ['Proposals sent','3–5 / 30 days'],
+   ['First client closed','1 by day 21'],
+   ['First deal target','$1,500–$3,000'],
+  ].forEach(([l,v]) => {
+    h += `<div class="mrow"><span class="mrow-lbl">${l}</span><span class="mrow-val">${v}</span></div>`;
+  });
+
+  h += `<div class="tip" style="margin-top:0.7rem"><div class="tip-lbl" style="color:#378ADD">Claude Code for your AI biz</div>
+    <p>Build automation workflows, write n8n / Make.com configs, debug AI agents, draft proposals and outreach messages.</p>
+    <button class="tip-btn">Design a client workflow ↗</button>
+  </div>`;
+
+  document.getElementById('view-ai').innerHTML = h;
+}
+
+function switchAiWeek(i) { aiWeek = i; save('ai_week', i); renderAI(); }
+function toggleAi(id) { aiChecked[id] = !aiChecked[id]; save('ai_checked', aiChecked); renderAI(); }
+
+// ─── OVERVIEW ────────────────────────────────────────────────────────────────
+
+function renderOverview() {
+  const acT = ACADEMIA.reduce((s,m)=>s+m.tasks.length,0);
+  const acD = Object.values(acChecked).filter(Boolean).length;
+  const aiT = AI_WEEKS.reduce((s,w)=>s+w.tasks.length,0);
+  const aiD = Object.values(aiChecked).filter(Boolean).length;
+  const ytT = YT_PHASES.reduce((s,p)=>s+p.tasks.length,0);
+  const ytD = Object.values(ytChecked).filter(Boolean).length;
+
+  let h = `<div class="stats4">
+    <div class="stat"><div class="stat-val" style="color:#D4537E">${acD}/${acT}</div><div class="stat-lbl">Academia tasks</div></div>
+    <div class="stat"><div class="stat-val" style="color:#378ADD">${aiD}/${aiT}</div><div class="stat-lbl">AI biz tasks</div></div>
+    <div class="stat"><div class="stat-val" style="color:#EF9F27">${ytD}/${ytT}</div><div class="stat-lbl">YouTube tasks</div></div>
+    <div class="stat"><div class="stat-val" style="color:#1D9E75">6</div><div class="stat-lbl">Programs targeted</div></div>
+  </div>`;
+
+  h += `<div class="banner" style="border-left:3px solid #EF9F27">
+    <div class="banner-lbl">The honest picture</div>
+    <p>7 parallel tracks: God, AI consulting (30-day client plan), content machine (12 channels, automated), academia (9-month masterplan), self-development, job (6hrs/day). The morning is your fortress. Everything runs on what you protect before 3pm.</p>
+  </div>`;
+
+  h += `<div class="shdr">Target programs</div>`;
+  [
+    {name:'NeuroData MSc', school:'Bar-Ilan + Padua (Erasmus Mundus)', status:'#1 — Funded', c:'#1D9E75'},
+    {name:'MPhil Cognitive Neurosciences', school:'Cambridge — Mastercard Foundation', status:'Reach — Funded', c:'#D4537E'},
+    {name:'MSc Mental Health (Thesis)', school:'McGill — Psychiatry', status:'Strong fit', c:'#378ADD'},
+    {name:'MSc Psychology (Behav. Neuro)', school:'McGill — Psychology', status:'Supervisor needed', c:'#378ADD'},
+    {name:'MSc Neuroscience (IPN)', school:'McGill', status:'Supervisor needed', c:'#378ADD'},
+  ].forEach(p => {
+    h += `<div class="prog">
+      <div class="prog-dot" style="background:${p.c}"></div>
+      <div>
+        <div class="prog-name">${p.name}</div>
+        <div class="prog-school">${p.school}</div>
+        <span class="badge" style="background:#1A1A1A;color:${p.c};margin-left:0;margin-top:3px">${p.status}</span>
+      </div>
+    </div>`;
+  });
+
+  h += `<div class="shdr">Scholarship deadlines</div>`;
+  [
+    ['McCall MacBain', 'Aug 19, 2026', 'Full tuition + $2,300/mo', '#D4537E'],
+    ['Mastercard Foundation (Cambridge)', 'Sept/Oct 2026', 'Full tuition + stipend + flights', '#1D9E75'],
+    ['Erasmus Mundus (NeuroData)', 'Jan/Feb 2027', 'Full tuition + €1,400/mo', '#EF9F27'],
+  ].forEach(([name, dl, val, c]) => {
+    h += `<div class="mrow">
+      <div>
+        <div style="font-size:11px;color:var(--text)">${name}</div>
+        <div style="font-size:10px;color:var(--muted)">${val}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:11px;color:${c}">${dl}</div>
+      </div>
+    </div>`;
+  });
+
+  h += `<div class="tip" style="margin-top:0.7rem"><div class="tip-lbl" style="color:#378ADD">Weekly review</div>
+    <p>Run a weekly review every Sunday to see what moved across all tracks and set next week&#39;s priorities.</p>
+    <button class="tip-btn">Run weekly review ↗</button>
+  </div>`;
+
+  // Reset button
+  h += `<div style="padding:1rem;text-align:center">
+    <button onclick="resetAll()" style="background:none;border:1px solid var(--dim);border-radius:4px;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;padding:6px 14px;cursor:pointer">Reset all checkboxes</button>
+  </div>`;
+
+  document.getElementById('view-overview').innerHTML = h;
+}
+
+function resetAll() {
+  if (!confirm('Reset all checkboxes? This cannot be undone.')) return;
+  sChecked = {}; acChecked = {}; aiChecked = {}; ytChecked = {};
+  ['sc_checked','ac_checked','ai_checked','yt_checked'].forEach(k => localStorage.removeItem(k));
+  renders[currentView]();
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+
+const renders = {schedule:renderSchedule, youtube:renderYouTube, academia:renderAcademia, ai:renderAI, overview:renderOverview};
+
+renderHdr();
+renderSchedule();
+</script>
+</body>
+</html>
