@@ -1,0 +1,75 @@
+export const INCOME = {
+  gross: 650000,
+  tithe: 65000,
+  upkeep: 75000,
+  net: 510000,
+};
+
+export const MONTHLY_EXPENSES = [
+  { name: 'Netflix', amount: 7500, color: '#ef4444' },
+  { name: 'Claude AI', amount: 15000, color: '#8b5cf6' },
+  { name: 'Gemini', amount: 4000, color: '#3b82f6' },
+  { name: 'Laundry & Cleaning', amount: 10000, color: '#10b981' },
+  { name: 'Data', amount: 40000, color: '#f59e0b' },
+  { name: 'YouTube Premium', amount: 2500, color: '#ec4899' },
+  { name: 'Transport', amount: 30000, color: '#6366f1' },
+];
+
+export const PURCHASES = [
+  { id: 'power-tank', name: 'Power Tank', detail: 'itel IESS-05K10N', amount: 380000, periodId: 1, emoji: '🔋' },
+  { id: 'maxi-cooker', name: 'Maxi Cooker', detail: '', amount: 230000, periodId: 2, emoji: '🍳' },
+  { id: 'macbook', name: 'MacBook', detail: 'Net cost after trade-in', amount: 1900000, periodId: 5, emoji: '💻' },
+  { id: 'passport', name: 'International Passport', detail: '', amount: 300000, periodId: 6, emoji: '🛂' },
+  { id: 'phone', name: 'New Phone', detail: '', amount: 1200000, periodId: 13, emoji: '📱' },
+  { id: 'rent-2027', name: '2027 Rent', detail: 'Full year payment', amount: 2200000, periodId: 23, emoji: '🏠' },
+  { id: 'car-down', name: 'Car Down Payment', detail: 'Sure Way — ₦10M deposit', amount: 10000000, periodId: 40, emoji: '🚗' },
+];
+
+// Cumulative balances at end of each period (from the master plan)
+export const PLAN_PERIODS = [
+  // Phase 1 — 2026
+  { id: 1,  date: '2026-05-15', phase: 1, savings: 0,       land: 0,        goal: 130000,   note: 'Buy Power Tank' },
+  { id: 2,  date: '2026-05-29', phase: 1, savings: 0,       land: 0,        goal: 410000,   note: 'Buy Maxi Cooker' },
+  { id: 3,  date: '2026-06-12', phase: 1, savings: 0,       land: 0,        goal: 920000,   note: 'Saving for MacBook' },
+  { id: 4,  date: '2026-06-26', phase: 1, savings: 0,       land: 0,        goal: 1430000,  note: '' },
+  { id: 5,  date: '2026-07-10', phase: 1, savings: 0,       land: 0,        goal: 40000,    note: 'MacBook acquired' },
+  { id: 6,  date: '2026-07-24', phase: 1, savings: 0,       land: 0,        goal: 250000,   note: 'Passport acquired' },
+  { id: 7,  date: '2026-08-07', phase: 1, savings: 180000,  land: 80000,    goal: 500000,   note: 'Split starts: 180/80/250' },
+  { id: 8,  date: '2026-08-21', phase: 1, savings: 360000,  land: 160000,   goal: 750000,   note: '' },
+  { id: 9,  date: '2026-09-04', phase: 1, savings: 540000,  land: 240000,   goal: 1000000,  note: '' },
+  { id: 10, date: '2026-09-18', phase: 1, savings: 720000,  land: 320000,   goal: 1250000,  note: '' },
+  { id: 11, date: '2026-10-02', phase: 1, savings: 900000,  land: 400000,   goal: 1500000,  note: '' },
+  { id: 12, date: '2026-10-16', phase: 1, savings: 1080000, land: 480000,   goal: 1750000,  note: '' },
+  { id: 13, date: '2026-10-30', phase: 1, savings: 1260000, land: 560000,   goal: 800000,   note: 'Phone acquired' },
+  { id: 14, date: '2026-11-13', phase: 1, savings: 1440000, land: 640000,   goal: 1050000,  note: '' },
+  { id: 15, date: '2026-11-27', phase: 1, savings: 1620000, land: 720000,   goal: 1300000,  note: '' },
+  { id: 16, date: '2026-12-11', phase: 1, savings: 1800000, land: 800000,   goal: 1550000,  note: '' },
+  { id: 17, date: '2026-12-25', phase: 1, savings: 1980000, land: 880000,   goal: 1800000,  note: '2026 Close' },
+  // Phase 2 — 2027
+  { id: 18, date: '2027-01-08', phase: 2, savings: 2160000, land: 960000,   goal: 2050000,  note: '' },
+  { id: 19, date: '2027-01-22', phase: 2, savings: 2340000, land: 1040000,  goal: 2300000,  note: '' },
+  { id: 20, date: '2027-02-05', phase: 2, savings: 2520000, land: 1120000,  goal: 2550000,  note: '' },
+  { id: 21, date: '2027-02-19', phase: 2, savings: 2700000, land: 1200000,  goal: 2800000,  note: '' },
+  { id: 22, date: '2027-03-05', phase: 2, savings: 2880000, land: 1280000,  goal: 3050000,  note: '' },
+  { id: 23, date: '2027-03-19', phase: 2, savings: 3060000, land: 1360000,  goal: 1100000,  note: '2027 Rent paid' },
+  { id: 24, date: '2027-04-02', phase: 2, savings: 3240000, land: 1440000,  goal: 1350000,  note: '' },
+  { id: 25, date: '2027-04-16', phase: 2, savings: 3420000, land: 1520000,  goal: 1600000,  note: '' },
+  { id: 26, date: '2027-04-30', phase: 2, savings: 3600000, land: 1600000,  goal: 1850000,  note: '' },
+  { id: 27, date: '2027-05-14', phase: 2, savings: 3780000, land: 1680000,  goal: 2100000,  note: '' },
+  { id: 28, date: '2027-05-28', phase: 2, savings: 3960000, land: 1760000,  goal: 2350000,  note: '' },
+  { id: 29, date: '2027-06-11', phase: 2, savings: 4140000, land: 1840000,  goal: 2600000,  note: '' },
+  { id: 30, date: '2027-06-25', phase: 2, savings: 4320000, land: 1920000,  goal: 2850000,  note: '' },
+  { id: 31, date: '2027-07-09', phase: 2, savings: 4500000, land: 2000000,  goal: 3100000,  note: '' },
+  { id: 32, date: '2027-07-23', phase: 2, savings: 4680000, land: 2080000,  goal: 3350000,  note: '' },
+  { id: 33, date: '2027-08-06', phase: 2, savings: 4860000, land: 2160000,  goal: 3600000,  note: '' },
+  { id: 34, date: '2027-08-20', phase: 2, savings: 5040000, land: 2240000,  goal: 3850000,  note: '' },
+  { id: 35, date: '2027-09-03', phase: 2, savings: 5220000, land: 2320000,  goal: 4100000,  note: '' },
+  { id: 36, date: '2027-09-17', phase: 2, savings: 5400000, land: 2400000,  goal: 4350000,  note: '' },
+  { id: 37, date: '2027-10-01', phase: 2, savings: 5580000, land: 2480000,  goal: 4600000,  note: '' },
+  { id: 38, date: '2027-10-15', phase: 2, savings: 5760000, land: 2560000,  goal: 4850000,  note: '' },
+  { id: 39, date: '2027-10-29', phase: 2, savings: 5940000, land: 2640000,  goal: 5100000,  note: 'The Car Move' },
+  { id: 40, date: '2027-11-12', phase: 2, savings: 1040000, land: 2720000,  goal: 0,        note: 'Pay ₦10M to Sure Way' },
+  { id: 41, date: '2027-11-26', phase: 2, savings: 1220000, land: 2800000,  goal: 250000,   note: '' },
+  { id: 42, date: '2027-12-10', phase: 2, savings: 1400000, land: 2880000,  goal: 500000,   note: '' },
+  { id: 43, date: '2027-12-24', phase: 2, savings: 1580000, land: 2960000,  goal: 750000,   note: '2027 Finale' },
+];
