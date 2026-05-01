@@ -144,6 +144,56 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Mon
 .prog-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
 .prog-name{font-size:12px;color:var(--text);font-weight:500;line-height:1.35}
 .prog-school{font-size:11px;color:var(--muted);margin-top:1px}
+
+/* LEDGER */
+.ldg-tabs{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.ldg-tabs::-webkit-scrollbar{display:none}
+.ldg-tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;padding:9px 13px;cursor:pointer;white-space:nowrap;transition:all 0.15s;flex-shrink:0}
+.ldg-tab.active{color:var(--text);border-bottom-color:#EF9F27}
+.ldg-section{padding:0.7rem 1rem}
+.ldg-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:0.75rem 1rem;margin-bottom:0.5rem}
+.ldg-card-title{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem}
+.ldg-status-ok{border-left:3px solid #1D9E75;background:#050F0A}
+.ldg-status-warn{border-left:3px solid #E24B4A;background:#120505}
+.ldg-grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:0.5rem}
+.ldg-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:0.5rem}
+.ldg-grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-bottom:0.5rem}
+.ldg-mini{background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:0.5rem 0.6rem;text-align:center}
+.ldg-mini-lbl{font-size:9px;color:var(--muted);letter-spacing:0.05em;margin-bottom:3px}
+.ldg-mini-val{font-size:13px;font-weight:600;line-height:1}
+.ldg-bar-wrap{height:3px;background:var(--dim);border-radius:2px;overflow:hidden;margin:4px 0 2px}
+.ldg-bar-fill{height:100%;border-radius:2px;transition:width 0.4s ease}
+.ldg-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
+.ldg-row:last-child{border-bottom:none}
+.ldg-row-lbl{font-size:11px;color:var(--muted)}
+.ldg-row-val{font-size:12px;color:var(--text);font-weight:500}
+.ldg-period{padding:0.55rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;transition:background 0.1s}
+.ldg-period:active{background:var(--surface2)}
+.ldg-period-hdr{display:flex;align-items:center;gap:8px}
+.ldg-period-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.ldg-period-date{font-size:12px;color:var(--text);flex:1}
+.ldg-period-note{font-size:10px;color:var(--muted);flex:1}
+.ldg-period-amt{font-size:11px;color:var(--muted);text-align:right}
+.ldg-period-detail{padding:0.5rem 0 0.25rem 1.5rem;display:none}
+.ldg-period-detail.open{display:block}
+.ldg-purchase{display:flex;gap:10px;padding:0.55rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;align-items:flex-start;transition:background 0.1s}
+.ldg-purchase:active{background:var(--surface2)}
+.ldg-purchase.done{opacity:0.5}
+.ldg-purchase-emoji{font-size:18px;flex-shrink:0;margin-top:1px}
+.ldg-purchase-info{flex:1;min-width:0}
+.ldg-purchase-name{font-size:12px;color:var(--text);line-height:1.35}
+.ldg-purchase-name.done{text-decoration:line-through}
+.ldg-purchase-sub{font-size:10px;color:var(--muted);margin-top:2px}
+.ldg-purchase-amt{font-size:12px;color:#EF9F27;font-weight:600;flex-shrink:0}
+.ldg-chk{width:16px;height:16px;border-radius:3px;border:1px solid var(--dim);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all 0.15s}
+.ldg-chk.done{background:#EF9F27;border-color:#EF9F27}
+.ldg-badge-ok{font-size:9px;padding:2px 6px;border-radius:2px;background:#051a10;color:#1D9E75;margin-left:5px;vertical-align:middle}
+.ldg-badge-warn{font-size:9px;padding:2px 6px;border-radius:2px;background:#1a0505;color:#E24B4A;margin-left:5px;vertical-align:middle}
+.ldg-btn{display:block;width:100%;background:none;border:1px solid var(--border);border-radius:4px;font-family:'DM Mono',monospace;font-size:11px;padding:8px 12px;cursor:pointer;text-align:left;color:#EF9F27;transition:background 0.15s;margin-top:0.4rem}
+.ldg-btn:active{background:var(--surface2)}
+.ldg-input{display:block;width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:4px;font-family:'DM Mono',monospace;font-size:12px;padding:7px 10px;color:var(--text);outline:none;box-sizing:border-box}
+.ldg-input:focus{border-color:#EF9F27}
+.ldg-stacked-bar{display:flex;height:8px;border-radius:4px;overflow:hidden;gap:1px;margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -168,6 +218,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Mon
     <button class="nav-btn" onclick="sw('academia',this)">Academia</button>
     <button class="nav-btn" onclick="sw('ai',this)">AI Biz</button>
     <button class="nav-btn" onclick="sw('overview',this)">Overview</button>
+    <button class="nav-btn" onclick="sw('ledger',this)">Ledger</button>
   </div>
   <div class="content">
     <div id="view-schedule"></div>
@@ -175,6 +226,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Mon
     <div id="view-academia" style="display:none"></div>
     <div id="view-ai" style="display:none"></div>
     <div id="view-overview" style="display:none"></div>
+    <div id="view-ledger" style="display:none"></div>
   </div>
 </div>
 
@@ -448,7 +500,7 @@ function renderHdr() {
 
 function sw(v, btn) {
   currentView = v;
-  ['schedule','youtube','academia','ai','overview'].forEach(x => {
+  ['schedule','youtube','academia','ai','overview','ledger'].forEach(x => {
     document.getElementById('view-'+x).style.display = x===v ? 'block' : 'none';
   });
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -746,9 +798,564 @@ function resetAll() {
   renders[currentView]();
 }
 
+// ─── LEDGER DATA ─────────────────────────────────────────────────────────────
+
+const INCOME = { gross:650000, tithe:65000, upkeep:75000, net:510000 };
+
+const MONTHLY_EXPENSES = [
+  { name:'Netflix',            amount:7500,  color:'#ef4444' },
+  { name:'Claude AI',          amount:15000, color:'#8b5cf6' },
+  { name:'Gemini',             amount:4000,  color:'#3b82f6' },
+  { name:'Laundry & Cleaning', amount:10000, color:'#10b981' },
+  { name:'Data',               amount:40000, color:'#f59e0b' },
+  { name:'YouTube Premium',    amount:2500,  color:'#ec4899' },
+  { name:'Transport',          amount:30000, color:'#6366f1' },
+];
+
+const PURCHASES = [
+  { id:'power-tank',  name:'Power Tank',            detail:'itel IESS-05K10N',    amount:380000,   periodId:1,  emoji:'🔋' },
+  { id:'maxi-cooker', name:'Maxi Cooker',           detail:'',                    amount:230000,   periodId:2,  emoji:'🍳' },
+  { id:'macbook',     name:'MacBook',               detail:'Net cost after trade-in', amount:1900000, periodId:5,  emoji:'💻' },
+  { id:'passport',    name:'International Passport', detail:'',                   amount:300000,   periodId:6,  emoji:'🛂' },
+  { id:'phone',       name:'New Phone',             detail:'',                    amount:1200000,  periodId:13, emoji:'📱' },
+  { id:'rent-2027',   name:'2027 Rent',             detail:'Full year payment',   amount:2200000,  periodId:23, emoji:'🏠' },
+  { id:'car-down',    name:'Car Down Payment',      detail:'Sure Way — ₦10M deposit', amount:10000000, periodId:40, emoji:'🚗' },
+];
+
+const PLAN_PERIODS = [
+  {id:1, date:'2026-05-15',phase:1,savings:0,      land:0,      goal:130000,  note:'Buy Power Tank'},
+  {id:2, date:'2026-05-29',phase:1,savings:0,      land:0,      goal:410000,  note:'Buy Maxi Cooker'},
+  {id:3, date:'2026-06-12',phase:1,savings:0,      land:0,      goal:920000,  note:'Saving for MacBook'},
+  {id:4, date:'2026-06-26',phase:1,savings:0,      land:0,      goal:1430000, note:''},
+  {id:5, date:'2026-07-10',phase:1,savings:0,      land:0,      goal:40000,   note:'MacBook acquired'},
+  {id:6, date:'2026-07-24',phase:1,savings:0,      land:0,      goal:250000,  note:'Passport acquired'},
+  {id:7, date:'2026-08-07',phase:1,savings:180000, land:80000,  goal:500000,  note:'Split starts: 180/80/250'},
+  {id:8, date:'2026-08-21',phase:1,savings:360000, land:160000, goal:750000,  note:''},
+  {id:9, date:'2026-09-04',phase:1,savings:540000, land:240000, goal:1000000, note:''},
+  {id:10,date:'2026-09-18',phase:1,savings:720000, land:320000, goal:1250000, note:''},
+  {id:11,date:'2026-10-02',phase:1,savings:900000, land:400000, goal:1500000, note:''},
+  {id:12,date:'2026-10-16',phase:1,savings:1080000,land:480000, goal:1750000, note:''},
+  {id:13,date:'2026-10-30',phase:1,savings:1260000,land:560000, goal:800000,  note:'Phone acquired'},
+  {id:14,date:'2026-11-13',phase:1,savings:1440000,land:640000, goal:1050000, note:''},
+  {id:15,date:'2026-11-27',phase:1,savings:1620000,land:720000, goal:1300000, note:''},
+  {id:16,date:'2026-12-11',phase:1,savings:1800000,land:800000, goal:1550000, note:''},
+  {id:17,date:'2026-12-25',phase:1,savings:1980000,land:880000, goal:1800000, note:'2026 Close'},
+  {id:18,date:'2027-01-08',phase:2,savings:2160000,land:960000, goal:2050000, note:''},
+  {id:19,date:'2027-01-22',phase:2,savings:2340000,land:1040000,goal:2300000, note:''},
+  {id:20,date:'2027-02-05',phase:2,savings:2520000,land:1120000,goal:2550000, note:''},
+  {id:21,date:'2027-02-19',phase:2,savings:2700000,land:1200000,goal:2800000, note:''},
+  {id:22,date:'2027-03-05',phase:2,savings:2880000,land:1280000,goal:3050000, note:''},
+  {id:23,date:'2027-03-19',phase:2,savings:3060000,land:1360000,goal:1100000, note:'2027 Rent paid'},
+  {id:24,date:'2027-04-02',phase:2,savings:3240000,land:1440000,goal:1350000, note:''},
+  {id:25,date:'2027-04-16',phase:2,savings:3420000,land:1520000,goal:1600000, note:''},
+  {id:26,date:'2027-04-30',phase:2,savings:3600000,land:1600000,goal:1850000, note:''},
+  {id:27,date:'2027-05-14',phase:2,savings:3780000,land:1680000,goal:2100000, note:''},
+  {id:28,date:'2027-05-28',phase:2,savings:3960000,land:1760000,goal:2350000, note:''},
+  {id:29,date:'2027-06-11',phase:2,savings:4140000,land:1840000,goal:2600000, note:''},
+  {id:30,date:'2027-06-25',phase:2,savings:4320000,land:1920000,goal:2850000, note:''},
+  {id:31,date:'2027-07-09',phase:2,savings:4500000,land:2000000,goal:3100000, note:''},
+  {id:32,date:'2027-07-23',phase:2,savings:4680000,land:2080000,goal:3350000, note:''},
+  {id:33,date:'2027-08-06',phase:2,savings:4860000,land:2160000,goal:3600000, note:''},
+  {id:34,date:'2027-08-20',phase:2,savings:5040000,land:2240000,goal:3850000, note:''},
+  {id:35,date:'2027-09-03',phase:2,savings:5220000,land:2320000,goal:4100000, note:''},
+  {id:36,date:'2027-09-17',phase:2,savings:5400000,land:2400000,goal:4350000, note:''},
+  {id:37,date:'2027-10-01',phase:2,savings:5580000,land:2480000,goal:4600000, note:''},
+  {id:38,date:'2027-10-15',phase:2,savings:5760000,land:2560000,goal:4850000, note:''},
+  {id:39,date:'2027-10-29',phase:2,savings:5940000,land:2640000,goal:5100000, note:'The Car Move'},
+  {id:40,date:'2027-11-12',phase:2,savings:1040000,land:2720000,goal:0,       note:'Pay ₦10M to Sure Way'},
+  {id:41,date:'2027-11-26',phase:2,savings:1220000,land:2800000,goal:250000,  note:''},
+  {id:42,date:'2027-12-10',phase:2,savings:1400000,land:2880000,goal:500000,  note:''},
+  {id:43,date:'2027-12-24',phase:2,savings:1580000,land:2960000,goal:750000,  note:'2027 Finale'},
+];
+
+// ─── LEDGER STATE ─────────────────────────────────────────────────────────────
+
+const LDG_KEY = 'ldg_v1';
+function ldgLoad() { try { return JSON.parse(localStorage.getItem(LDG_KEY)||'null')||{paidPeriods:{},purchasesDone:{},balances:{savings:0,land:0,goal:0}}; } catch(e){return{paidPeriods:{},purchasesDone:{},balances:{savings:0,land:0,goal:0}};} }
+function ldgSave(s) { try { localStorage.setItem(LDG_KEY,JSON.stringify(s)); } catch(e){} }
+
+let ldgState = ldgLoad();
+let ldgTab   = 'overview';  // overview | timeline | budget | purchases
+let ldgExpandedPeriod = null;
+let ldgEditBal = false;
+let ldgTempBal = {savings:0,land:0,goal:0};
+let ldgMarkOpen = null;  // periodId or null
+let ldgMarkAmt  = INCOME.gross;
+let ldgBuyOpen  = null;  // purchaseId or null
+let ldgBuyAmt   = 0;
+
+// ─── LEDGER HELPERS ───────────────────────────────────────────────────────────
+
+function ldgFmt(n) { return '₦'+Number(n).toLocaleString('en-NG'); }
+function ldgFmtK(n) {
+  if(n>=1000000) return '₦'+(n/1000000).toFixed(1)+'M';
+  if(n>=1000)    return '₦'+(n/1000).toFixed(0)+'k';
+  return '₦'+n;
+}
+function ldgFmtDate(str) {
+  return new Date(str).toLocaleDateString('en-NG',{month:'short',day:'numeric',year:'numeric'});
+}
+function ldgFmtShort(str) {
+  return new Date(str).toLocaleDateString('en-NG',{month:'short',day:'numeric'});
+}
+
+// ─── LEDGER ACTIONS ───────────────────────────────────────────────────────────
+
+function ldgMarkPaid(periodId) {
+  const amt = Number(document.getElementById('ldg-pay-amt-'+periodId).value||INCOME.gross);
+  const notes = (document.getElementById('ldg-pay-notes-'+periodId)||{}).value||'';
+  ldgState.paidPeriods[periodId] = { actualAmount:amt, paidDate:new Date().toISOString(), notes };
+  ldgSave(ldgState);
+  ldgMarkOpen = null;
+  renderLedger();
+}
+
+function ldgUnmarkPaid(periodId) {
+  delete ldgState.paidPeriods[periodId];
+  ldgSave(ldgState);
+  renderLedger();
+}
+
+function ldgMarkDone(purchaseId) {
+  const amt = Number(document.getElementById('ldg-buy-amt-'+purchaseId).value||0);
+  ldgState.purchasesDone[purchaseId] = { doneDate:new Date().toISOString(), actualCost:amt };
+  ldgSave(ldgState);
+  ldgBuyOpen = null;
+  renderLedger();
+}
+
+function ldgUnmarkDone(purchaseId) {
+  delete ldgState.purchasesDone[purchaseId];
+  ldgSave(ldgState);
+  renderLedger();
+}
+
+function ldgSaveBal() {
+  const s = Number(document.getElementById('ldg-bal-savings').value||0);
+  const l = Number(document.getElementById('ldg-bal-land').value||0);
+  const g = Number(document.getElementById('ldg-bal-goal').value||0);
+  ldgState.balances = {savings:s, land:l, goal:g};
+  ldgSave(ldgState);
+  ldgEditBal = false;
+  renderLedger();
+}
+
+function ldgToggleBal() {
+  ldgEditBal = !ldgEditBal;
+  renderLedger();
+}
+
+function ldgTogglePeriod(id) {
+  ldgExpandedPeriod = (ldgExpandedPeriod === id) ? null : id;
+  renderLedger();
+}
+
+function ldgOpenMark(periodId) {
+  ldgMarkOpen = ldgMarkOpen === periodId ? null : periodId;
+  renderLedger();
+}
+
+function ldgOpenBuy(purchaseId) {
+  ldgBuyOpen = ldgBuyOpen === purchaseId ? null : purchaseId;
+  renderLedger();
+}
+
+function ldgSwitchTab(t) {
+  ldgTab = t;
+  renderLedger();
+}
+
+// ─── LEDGER RENDER ────────────────────────────────────────────────────────────
+
+function renderLedger() {
+  const now = new Date();
+  const pastPeriods   = PLAN_PERIODS.filter(p => new Date(p.date) <= now);
+  const futurePeriods = PLAN_PERIODS.filter(p => new Date(p.date) > now);
+  const nextPeriod    = futurePeriods[0] || null;
+  const lastPast      = pastPeriods[pastPeriods.length-1] || null;
+  const overdue       = pastPeriods.filter(p => !ldgState.paidPeriods[p.id]);
+  const onTrack       = overdue.length === 0;
+  const paidCount     = pastPeriods.filter(p => ldgState.paidPeriods[p.id]).length;
+  const daysToNext    = nextPeriod ? Math.ceil((new Date(nextPeriod.date)-now)/86400000) : null;
+  const planned       = lastPast ? {savings:lastPast.savings,land:lastPast.land,goal:lastPast.goal} : {savings:0,land:0,goal:0};
+
+  let h = '';
+
+  // Sub-tabs
+  const tabs = ['overview','timeline','budget','purchases'];
+  h += `<div class="ldg-tabs">`;
+  tabs.forEach(t => {
+    h += `<button class="ldg-tab ${t===ldgTab?'active':''}" onclick="ldgSwitchTab('${t}')">${t.charAt(0).toUpperCase()+t.slice(1)}</button>`;
+  });
+  h += `</div>`;
+
+  if (ldgTab === 'overview') h += ldgOverview(now, nextPeriod, lastPast, paidCount, pastPeriods, overdue, onTrack, planned, daysToNext);
+  else if (ldgTab === 'timeline') h += ldgTimeline(now, pastPeriods, overdue, nextPeriod);
+  else if (ldgTab === 'budget') h += ldgBudget();
+  else if (ldgTab === 'purchases') h += ldgPurchases(now);
+
+  document.getElementById('view-ledger').innerHTML = h;
+}
+
+function ldgOverview(now, nextPeriod, lastPast, paidCount, pastPeriods, overdue, onTrack, planned, daysToNext) {
+  const bal = ldgState.balances;
+  const totalActual  = bal.savings + bal.land + bal.goal;
+  const totalPlanned = planned.savings + planned.land + planned.goal;
+
+  const fundCards = [
+    {key:'savings', label:'Savings (POF)',  max:5940000,  color:'#1D9E75'},
+    {key:'land',    label:'Land & Stocks',  max:2960000,  color:'#378ADD'},
+    {key:'goal',    label:'Goal Fund',      max:5100000,  color:'#EF9F27'},
+  ];
+
+  const upcoming = PURCHASES.filter(p => {
+    const per = PLAN_PERIODS.find(pp => pp.id === p.periodId);
+    return per && new Date(per.date) > now && !ldgState.purchasesDone[p.id];
+  }).slice(0,3);
+
+  let h = `<div class="ldg-section">`;
+
+  // Status banner
+  h += `<div class="ldg-card ${onTrack?'ldg-status-ok':'ldg-status-warn'}">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:${onTrack?'#1D9E75':'#E24B4A'}">${onTrack?'✓ On Track':'⚠ '+overdue.length+' Overdue'}</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:3px">
+          ${pastPeriods.length===0
+            ? 'Journey begins May 15 — get ready!'
+            : paidCount+' / '+pastPeriods.length+' periods confirmed'}
+        </div>
+        ${!onTrack ? `<div style="font-size:10px;color:#E24B4A;margin-top:3px">Missing: ${overdue.map(p=>ldgFmtShort(p.date)).join(', ')}</div>` : ''}
+      </div>
+      ${nextPeriod ? `<div style="text-align:right">
+        <div style="font-size:9px;color:var(--muted)">Next payment</div>
+        <div style="font-size:12px;font-weight:600;color:${daysToNext<=3?'#1D9E75':'var(--text)'}">${daysToNext===0?'Today!':daysToNext+'d'}</div>
+        <div style="font-size:10px;color:#EF9F27">${ldgFmtK(INCOME.gross)}</div>
+      </div>` : ''}
+    </div>
+  </div>`;
+
+  // Quick pay for next period
+  if (nextPeriod) {
+    const paid = ldgState.paidPeriods[nextPeriod.id];
+    if (paid) {
+      h += `<div class="ldg-card ldg-status-ok">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:12px;color:#1D9E75;font-weight:600">✓ ${ldgFmtDate(nextPeriod.date)} confirmed</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:2px">${ldgFmt(paid.actualAmount)} received${paid.notes?' · '+paid.notes:''}</div>
+          </div>
+          <button onclick="ldgUnmarkPaid(${nextPeriod.id})" style="background:none;border:none;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;padding:4px 8px">Undo</button>
+        </div>
+      </div>`;
+    } else {
+      if (ldgMarkOpen === nextPeriod.id) {
+        const amt = INCOME.gross;
+        const tithe = Math.round(amt*0.1);
+        const net   = amt - tithe - INCOME.upkeep;
+        h += `<div class="ldg-card" style="border-color:#EF9F27;border-opacity:0.4">
+          <div style="font-size:12px;color:#EF9F27;font-weight:600;margin-bottom:6px">Mark Payment Received</div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:6px">Period ${nextPeriod.id} · ${ldgFmtDate(nextPeriod.date)}</div>
+          <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:3px">Amount received (₦)</label>
+          <input id="ldg-pay-amt-${nextPeriod.id}" class="ldg-input" type="number" value="${INCOME.gross}" style="margin-bottom:8px">
+          <div class="ldg-grid3" style="margin-bottom:8px">
+            <div class="ldg-mini"><div class="ldg-mini-lbl">Tithe</div><div class="ldg-mini-val" style="color:#E24B4A">${ldgFmtK(tithe)}</div></div>
+            <div class="ldg-mini"><div class="ldg-mini-lbl">Upkeep</div><div class="ldg-mini-val" style="color:#f59e0b">${ldgFmtK(INCOME.upkeep)}</div></div>
+            <div class="ldg-mini"><div class="ldg-mini-lbl">Net Save</div><div class="ldg-mini-val" style="color:#1D9E75">${ldgFmtK(net)}</div></div>
+          </div>
+          <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:3px">Notes (optional)</label>
+          <input id="ldg-pay-notes-${nextPeriod.id}" class="ldg-input" type="text" placeholder="e.g. client bonus included" style="margin-bottom:8px">
+          <div style="display:flex;gap:6px">
+            <button onclick="ldgOpenMark(${nextPeriod.id})" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:4px;font-family:'DM Mono',monospace;font-size:11px;padding:8px;cursor:pointer;color:var(--muted)">Cancel</button>
+            <button onclick="ldgMarkPaid(${nextPeriod.id})" style="flex:1;background:#1D9E75;border:none;border-radius:4px;font-family:'DM Mono',monospace;font-size:11px;padding:8px;cursor:pointer;color:#fff;font-weight:600">Confirm ✓</button>
+          </div>
+        </div>`;
+      } else {
+        h += `<div class="ldg-card" style="border-color:#3A3940">
+          <div style="font-size:12px;color:#EF9F27;font-weight:600;margin-bottom:4px">Mark Payment Received</div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:8px">Period ${nextPeriod.id} · ${ldgFmtDate(nextPeriod.date)}${nextPeriod.note?' · '+nextPeriod.note:''}</div>
+          <button onclick="ldgOpenMark(${nextPeriod.id})" style="display:block;width:100%;background:#EF9F27;border:none;border-radius:4px;font-family:'DM Mono',monospace;font-size:12px;padding:10px;cursor:pointer;color:#0C0C0E;font-weight:700">I Received My Payment</button>
+        </div>`;
+      }
+    }
+  }
+
+  // Income flow
+  h += `<div class="ldg-card">
+    <div class="ldg-card-title">Biweekly Income Flow</div>
+    <div class="ldg-grid4">
+      <div class="ldg-mini"><div class="ldg-mini-lbl">Gross</div><div class="ldg-mini-val">${ldgFmtK(INCOME.gross)}</div></div>
+      <div class="ldg-mini"><div class="ldg-mini-lbl">Tithe</div><div class="ldg-mini-val" style="color:#E24B4A">-${ldgFmtK(INCOME.tithe)}</div></div>
+      <div class="ldg-mini"><div class="ldg-mini-lbl">Upkeep</div><div class="ldg-mini-val" style="color:#f59e0b">-${ldgFmtK(INCOME.upkeep)}</div></div>
+      <div class="ldg-mini"><div class="ldg-mini-lbl">Net</div><div class="ldg-mini-val" style="color:#1D9E75">${ldgFmtK(INCOME.net)}</div></div>
+    </div>
+  </div>`;
+
+  // Fund balances
+  h += `<div class="ldg-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+      <div class="ldg-card-title" style="margin-bottom:0">Fund Balances</div>
+      <button onclick="ldgToggleBal()" style="background:none;border:none;color:#EF9F27;font-family:'DM Mono',monospace;font-size:10px;cursor:pointer">${ldgEditBal?'Cancel':'Update actuals'}</button>
+    </div>`;
+
+  if (ldgEditBal) {
+    h += `<div class="ldg-grid3" style="margin-bottom:8px">
+      <div><div style="font-size:10px;color:var(--muted);margin-bottom:3px">Savings</div><input id="ldg-bal-savings" class="ldg-input" type="number" value="${bal.savings}"></div>
+      <div><div style="font-size:10px;color:var(--muted);margin-bottom:3px">Land/Stocks</div><input id="ldg-bal-land" class="ldg-input" type="number" value="${bal.land}"></div>
+      <div><div style="font-size:10px;color:var(--muted);margin-bottom:3px">Goal Fund</div><input id="ldg-bal-goal" class="ldg-input" type="number" value="${bal.goal}"></div>
+    </div>
+    <button onclick="ldgSaveBal()" style="display:block;width:100%;background:#EF9F27;border:none;border-radius:4px;font-family:'DM Mono',monospace;font-size:12px;padding:8px;cursor:pointer;color:#0C0C0E;font-weight:700;margin-bottom:0.5rem">Save Balances</button>`;
+  }
+
+  fundCards.forEach(f => {
+    const actual  = bal[f.key];
+    const plan    = planned[f.key];
+    const pct     = Math.min((actual/f.max)*100,100);
+    const planPct = Math.min((plan/f.max)*100,100);
+    const diff    = actual - plan;
+    h += `<div style="margin-bottom:0.6rem">
+      <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px">
+        <span style="color:var(--muted)">${f.label}</span>
+        <span style="color:${f.color};font-weight:600">${ldgFmtK(actual)} <span style="color:var(--dim);font-weight:400">/ ${ldgFmtK(plan)} plan</span></span>
+      </div>
+      <div class="ldg-bar-wrap">
+        <div style="width:${planPct}%;height:100%;background:${f.color};opacity:0.25;border-radius:2px;position:absolute"></div>
+        <div class="ldg-bar-fill" style="width:${pct}%;background:${f.color}"></div>
+      </div>
+      ${plan>0 ? `<div style="font-size:10px;color:${diff>=0?'#1D9E75':'#E24B4A'}">${diff>=0?'+'+ldgFmtK(diff)+' ahead':ldgFmtK(diff)+' behind'}</div>` : ''}
+    </div>`;
+  });
+
+  h += `<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);padding-top:0.5rem;margin-top:0.25rem">
+    <div><div style="font-size:10px;color:var(--muted)">Total Portfolio</div><div style="font-size:18px;font-weight:700;color:#EF9F27;font-family:'Syne',sans-serif">${ldgFmtK(totalActual)}</div></div>
+    ${totalPlanned>0 ? `<div style="text-align:right"><div style="font-size:10px;color:var(--muted)">Plan target</div><div style="font-size:12px;color:var(--text)">${ldgFmtK(totalPlanned)}</div></div>` : ''}
+  </div>
+  </div>`;
+
+  // Upcoming purchases
+  if (upcoming.length > 0) {
+    h += `<div class="ldg-card"><div class="ldg-card-title">Next Purchases</div>`;
+    upcoming.forEach(p => {
+      const per = PLAN_PERIODS.find(pp => pp.id === p.periodId);
+      h += `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:18px">${p.emoji}</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;color:var(--text)">${p.name}</div>
+          <div style="font-size:10px;color:var(--muted)">${per?ldgFmtDate(per.date):''}${p.detail?' · '+p.detail:''}</div>
+        </div>
+        <div style="font-size:12px;color:#EF9F27;font-weight:600">${ldgFmtK(p.amount)}</div>
+      </div>`;
+    });
+    h += `</div>`;
+  }
+
+  h += `</div>`;
+  return h;
+}
+
+function ldgTimeline(now, pastPeriods, overdue, nextPeriod) {
+  let h = `<div style="padding:0.5rem 1rem 0.25rem;display:flex;flex-wrap:wrap;gap:8px;">`;
+  [{color:'#1D9E75',lbl:'Paid'},{color:'#EF9F27',lbl:'Next'},{color:'#E24B4A',lbl:'Overdue'},{color:'var(--dim)',lbl:'Future'}].forEach(l => {
+    h += `<span style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted)"><span style="width:7px;height:7px;border-radius:50%;background:${l.color};display:inline-block"></span>${l.lbl}</span>`;
+  });
+  h += `</div>`;
+
+  let phase1Shown = false, phase2Shown = false;
+
+  PLAN_PERIODS.forEach((period, idx) => {
+    const date      = new Date(period.date);
+    const isPast    = date <= now;
+    const isPaid    = !!ldgState.paidPeriods[period.id];
+    const isNext    = !isPast && (idx===0 || new Date(PLAN_PERIODS[idx-1].date)<=now);
+    const isOverdue = isPast && !isPaid;
+    const periodPurchases = PURCHASES.filter(p => p.periodId === period.id);
+    const isOpen    = ldgExpandedPeriod === period.id;
+
+    let dotColor = 'var(--dim)';
+    if (isPaid)      dotColor = '#1D9E75';
+    else if (isOverdue) dotColor = '#E24B4A';
+    else if (isNext)    dotColor = '#EF9F27';
+
+    if (period.phase===1 && !phase1Shown) {
+      phase1Shown = true;
+      h += `<div style="padding:0.6rem 1rem 0.1rem;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)">Phase 1 — 2026 · Infrastructure &amp; Rebirth</div>`;
+    }
+    if (period.phase===2 && !phase2Shown) {
+      phase2Shown = true;
+      h += `<div style="padding:0.6rem 1rem 0.1rem;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)">Phase 2 — 2027 · The Car &amp; Rent Strategy</div>`;
+    }
+
+    h += `<div class="ldg-period" onclick="ldgTogglePeriod(${period.id})" style="${isNext?'border-left:2px solid #EF9F27':isOverdue?'border-left:2px solid #E24B4A':'border-left:2px solid transparent'}">
+      <div class="ldg-period-hdr">
+        <div class="ldg-period-dot" style="background:${dotColor}"></div>
+        <div class="ldg-period-date">${date.toLocaleDateString('en-NG',{month:'short',day:'numeric',year:'numeric'})}</div>
+        ${period.note ? `<div class="ldg-period-note">${period.note}</div>` : '<div style="flex:1"></div>'}
+        ${periodPurchases.map(p=>`<span title="${p.name}">${p.emoji}</span>`).join('')}
+        <div class="ldg-period-amt">Goal ${ldgFmtK(period.goal)}</div>
+        <span style="font-size:9px;color:var(--muted);margin-left:4px">${isOpen?'▲':'▼'}</span>
+      </div>`;
+
+    if (isOpen) {
+      h += `<div style="padding-top:8px;padding-left:15px">
+        <div class="ldg-grid3">
+          <div class="ldg-mini"><div class="ldg-mini-lbl">Savings</div><div class="ldg-mini-val" style="color:#1D9E75">${ldgFmtK(period.savings)}</div></div>
+          <div class="ldg-mini"><div class="ldg-mini-lbl">Land/Stocks</div><div class="ldg-mini-val" style="color:#378ADD">${ldgFmtK(period.land)}</div></div>
+          <div class="ldg-mini"><div class="ldg-mini-lbl">Goal Fund</div><div class="ldg-mini-val" style="color:#EF9F27">${ldgFmtK(period.goal)}</div></div>
+        </div>`;
+
+      if (periodPurchases.length > 0) {
+        periodPurchases.forEach(p => {
+          h += `<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid var(--border);font-size:11px">
+            <span>${p.emoji}</span><span style="flex:1;color:var(--text)">${p.name}</span><span style="color:#EF9F27;font-weight:600">${ldgFmtK(p.amount)}</span>
+          </div>`;
+        });
+      }
+
+      if (isPaid) {
+        const pd = ldgState.paidPeriods[period.id];
+        h += `<div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;padding:6px 8px;background:#051a10;border:1px solid #0d3020;border-radius:4px">
+          <div>
+            <div style="font-size:11px;color:#1D9E75;font-weight:600">✓ Paid</div>
+            <div style="font-size:10px;color:var(--muted)">${ldgFmt(pd.actualAmount)} · ${ldgFmtDate(pd.paidDate)}${pd.notes?' · '+pd.notes:''}</div>
+          </div>
+          <button onclick="ldgUnmarkPaid(${period.id})" style="background:none;border:none;color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;cursor:pointer">Undo</button>
+        </div>`;
+      } else {
+        if (ldgMarkOpen === period.id) {
+          h += `<div style="margin-top:6px">
+            <input id="ldg-pay-amt-${period.id}" class="ldg-input" type="number" value="${INCOME.gross}" style="margin-bottom:6px" placeholder="Amount received">
+            <input id="ldg-pay-notes-${period.id}" class="ldg-input" type="text" placeholder="Notes (optional)" style="margin-bottom:6px">
+            <div style="display:flex;gap:6px">
+              <button onclick="ldgOpenMark(${period.id})" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:4px;font-family:'DM Mono',monospace;font-size:10px;padding:7px;cursor:pointer;color:var(--muted)">Cancel</button>
+              <button onclick="ldgMarkPaid(${period.id})" style="flex:1;background:#1D9E75;border:none;border-radius:4px;font-family:'DM Mono',monospace;font-size:10px;padding:7px;cursor:pointer;color:#fff;font-weight:600">Confirm ✓</button>
+            </div>
+          </div>`;
+        } else {
+          h += `<div style="display:flex;gap:6px;margin-top:6px">
+            <button onclick="ldgOpenMark(${period.id})" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:4px;font-family:'DM Mono',monospace;font-size:10px;padding:7px;cursor:pointer;color:var(--muted)">Mark Paid</button>
+          </div>`;
+        }
+      }
+      h += `</div>`;
+    }
+    h += `</div>`;
+  });
+
+  return h;
+}
+
+function ldgBudget() {
+  const monthlyUpkeep = INCOME.upkeep * 2;
+  const totalSubs     = MONTHLY_EXPENSES.reduce((s,e)=>s+e.amount,0);
+  const foodMisc      = monthlyUpkeep - totalSubs;
+  const allItems      = [...MONTHLY_EXPENSES, {name:'Food & Misc',amount:foodMisc,color:'#475569'}];
+  const totalAll      = allItems.reduce((s,e)=>s+e.amount,0);
+
+  let h = `<div class="ldg-section">`;
+
+  // Stacked bar
+  h += `<div class="ldg-card">
+    <div class="ldg-card-title">Monthly Expense Breakdown</div>
+    <div class="ldg-stacked-bar">`;
+  allItems.forEach(e => {
+    h += `<div style="flex:${(e.amount/totalAll)*100};background:${e.color}" title="${e.name}: ${ldgFmt(e.amount)}"></div>`;
+  });
+  h += `</div>`;
+  allItems.forEach(e => {
+    h += `<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)">
+      <div style="width:10px;height:10px;border-radius:2px;background:${e.color};flex-shrink:0"></div>
+      <span style="font-size:11px;flex:1;color:var(--muted)">${e.name}</span>
+      <span style="font-size:12px;color:var(--text);font-weight:500">${ldgFmt(e.amount)}</span>
+      <span style="font-size:10px;color:var(--dim);width:30px;text-align:right">${Math.round((e.amount/totalAll)*100)}%</span>
+    </div>`;
+  });
+  h += `<div style="padding-top:0.5rem;margin-top:0.25rem">
+    <div class="ldg-row"><span class="ldg-row-lbl">Monthly Upkeep (₦75k×2)</span><span class="ldg-row-val">${ldgFmt(monthlyUpkeep)}</span></div>
+    <div class="ldg-row"><span class="ldg-row-lbl">Fixed Subscriptions</span><span class="ldg-row-val">${ldgFmt(totalSubs)}</span></div>
+    <div class="ldg-row"><span class="ldg-row-lbl" style="color:var(--text);font-weight:600">Food &amp; Misc Buffer</span><span style="color:#1D9E75;font-weight:700;font-size:13px">${ldgFmt(foodMisc)}</span></div>
+  </div>
+  </div>`;
+
+  // Cash flow
+  h += `<div class="ldg-card">
+    <div class="ldg-card-title">Biweekly Cash Flow</div>`;
+  [
+    {lbl:'Gross Income',    val:INCOME.gross,  sign:'',  c:'var(--text)'},
+    {lbl:'Tithe (10%)',     val:INCOME.tithe,  sign:'−', c:'#E24B4A'},
+    {lbl:'Biweekly Upkeep',val:INCOME.upkeep, sign:'−', c:'#f59e0b'},
+    {lbl:'Net to Allocate', val:INCOME.net,    sign:'=', c:'#1D9E75'},
+  ].forEach(item => {
+    h += `<div class="ldg-row">
+      <span class="ldg-row-lbl">${item.lbl}</span>
+      <span style="font-size:12px;font-weight:600;color:${item.c}">${item.sign} ${ldgFmt(item.val)}</span>
+    </div>`;
+  });
+  h += `</div>`;
+
+  // Split
+  h += `<div class="ldg-card">
+    <div class="ldg-card-title">Allocation Split (from Aug 7, 2026)</div>
+    <div style="font-size:10px;color:var(--muted);margin-bottom:8px">Before Aug 7 → 100% to Goal Fund</div>
+    <div class="ldg-grid3">
+      <div class="ldg-mini" style="border-color:#1D9E75"><div class="ldg-mini-lbl">Savings (POF)</div><div class="ldg-mini-val" style="color:#1D9E75">${ldgFmtK(180000)}</div><div style="font-size:9px;color:var(--muted)">35%</div></div>
+      <div class="ldg-mini" style="border-color:#378ADD"><div class="ldg-mini-lbl">Land &amp; Stocks</div><div class="ldg-mini-val" style="color:#378ADD">${ldgFmtK(80000)}</div><div style="font-size:9px;color:var(--muted)">16%</div></div>
+      <div class="ldg-mini" style="border-color:#EF9F27"><div class="ldg-mini-lbl">Goal Fund</div><div class="ldg-mini-val" style="color:#EF9F27">${ldgFmtK(250000)}</div><div style="font-size:9px;color:var(--muted)">49%</div></div>
+    </div>
+  </div>`;
+
+  h += `</div>`;
+  return h;
+}
+
+function ldgPurchases(now) {
+  const done  = PURCHASES.filter(p => ldgState.purchasesDone[p.id]).length;
+  const spent = PURCHASES.filter(p => ldgState.purchasesDone[p.id])
+    .reduce((s,p) => s + (ldgState.purchasesDone[p.id].actualCost || p.amount), 0);
+
+  let h = `<div class="ldg-section">
+    <div class="ldg-grid3">
+      <div class="ldg-mini"><div class="ldg-mini-lbl">Total</div><div class="ldg-mini-val">${PURCHASES.length}</div></div>
+      <div class="ldg-mini"><div class="ldg-mini-lbl">Done</div><div class="ldg-mini-val" style="color:#1D9E75">${done}</div></div>
+      <div class="ldg-mini"><div class="ldg-mini-lbl">Spent</div><div class="ldg-mini-val" style="color:#EF9F27">${ldgFmtK(spent)}</div></div>
+    </div>
+  </div>`;
+
+  PURCHASES.forEach(p => {
+    const per    = PLAN_PERIODS.find(pp => pp.id === p.periodId);
+    const isDone = !!ldgState.purchasesDone[p.id];
+    const doneData = ldgState.purchasesDone[p.id];
+
+    h += `<div class="ldg-purchase ${isDone?'done':''}">
+      <div class="ldg-chk ${isDone?'done':''}" onclick="isDone?ldgUnmarkDone('${p.id}'):ldgOpenBuy('${p.id}')">
+        ${isDone?chkSVG('#0C0C0E'):''}
+      </div>
+      <span class="ldg-purchase-emoji">${p.emoji}</span>
+      <div class="ldg-purchase-info">
+        <div class="ldg-purchase-name ${isDone?'done':''}">${p.name}${isDone?'<span class="ldg-badge-ok">Purchased ✓</span>':''}</div>
+        <div class="ldg-purchase-sub">${p.detail?p.detail+' · ':''}${per?per.date.slice(0,7):''}
+          ${isDone&&doneData?`<br>Paid ${ldgFmt(doneData.actualCost||p.amount)} on ${ldgFmtDate(doneData.doneDate)}`:''}
+        </div>
+        ${!isDone && ldgBuyOpen===p.id ? `
+          <div onclick="event.stopPropagation()" style="margin-top:6px">
+            <input id="ldg-buy-amt-${p.id}" class="ldg-input" type="number" value="${p.amount}" style="margin-bottom:5px">
+            <div style="display:flex;gap:5px">
+              <button onclick="ldgOpenBuy('${p.id}')" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:3px;font-family:'DM Mono',monospace;font-size:10px;padding:6px;cursor:pointer;color:var(--muted)">Cancel</button>
+              <button onclick="ldgMarkDone('${p.id}')" style="flex:1;background:#1D9E75;border:none;border-radius:3px;font-family:'DM Mono',monospace;font-size:10px;padding:6px;cursor:pointer;color:#fff;font-weight:600">Confirm ✓</button>
+            </div>
+          </div>` : ''}
+        ${isDone ? `<div onclick="event.stopPropagation()"><button onclick="ldgUnmarkDone('${p.id}')" style="background:none;border:none;color:var(--dim);font-family:'DM Mono',monospace;font-size:10px;cursor:pointer;padding:0;margin-top:2px">Undo</button></div>` : ''}
+        ${!isDone && ldgBuyOpen!==p.id ? `<button onclick="ldgOpenBuy('${p.id}')" style="display:block;width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:3px;font-family:'DM Mono',monospace;font-size:10px;padding:5px;cursor:pointer;color:var(--muted);text-align:center;margin-top:5px">Mark as Purchased</button>` : ''}
+      </div>
+      <div class="ldg-purchase-amt">${ldgFmtK(p.amount)}</div>
+    </div>`;
+  });
+
+  return h;
+}
+
 // ─── INIT ────────────────────────────────────────────────────────────────────
 
-const renders = {schedule:renderSchedule, youtube:renderYouTube, academia:renderAcademia, ai:renderAI, overview:renderOverview};
+const renders = {schedule:renderSchedule, youtube:renderYouTube, academia:renderAcademia, ai:renderAI, overview:renderOverview, ledger:renderLedger};
 
 renderHdr();
 renderSchedule();
