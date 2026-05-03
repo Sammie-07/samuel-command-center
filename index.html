@@ -673,11 +673,61 @@ function toggleYt(id) { ytChecked[id] = !ytChecked[id]; save('yt_checked', ytChe
 // ─── ACADEMIA ────────────────────────────────────────────────────────────────
 
 function renderAcademia() {
-  let h = `<div class="banner" style="border-left:3px solid #D4537E">
-    <div class="banner-lbl">Masterplan V3 — Mission: Neuropsychology in Nigeria</div>
-    <p>Stage 1: Masters abroad 2027–2029 (NeuroData or McGill). Stage 2: Monash PhD Clinical Neuropsychology 2029–2033 — Maxwell King AUD $53k/yr. Exit as the only clinically registered neuropsychologist in Nigeria. <strong>Next hard deadline: McCall MacBain — Aug 19, 2026.</strong></p>
-  </div>`;
+  // ── Mission Arc ──────────────────────────────────────────────────────────
+  let h = `<div style="padding:0.75rem 1rem 0">
+    <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.6rem">Mission Arc · 2026 → 2035+</div>
+    <div style="display:flex;align-items:stretch;gap:0;overflow-x:auto;scrollbar-width:none;padding-bottom:0.5rem">`;
 
+  const stages = [
+    {num:'Now',   years:'2026–27',   title:'Apply',       sub:'9 apps. 4 scholarships.',  c:'#D4537E', bg:'#1a0510'},
+    {num:'S1',    years:'2027–29',   title:'Masters',     sub:'NeuroData or McGill',       c:'#378ADD', bg:'#050e1a'},
+    {num:'S2',    years:'2029–33',   title:'PhD',         sub:'Monash · Maxwell King',     c:'#1D9E75', bg:'#050f0a'},
+    {num:'S3',    years:'2033–35',   title:'Registrar',   sub:'Clinical + postdoc',        c:'#7F77DD', bg:'#0d0c1a'},
+    {num:'S4',    years:'2035+',     title:'Nigeria',     sub:'Build the field',           c:'#EF9F27', bg:'#1a1000'},
+  ];
+
+  stages.forEach((s, i) => {
+    h += `<div style="flex-shrink:0;width:80px;background:${s.bg};border:1px solid ${s.c}33;border-radius:6px;padding:0.5rem 0.45rem;text-align:center;position:relative${i>0?';margin-left:4px':''}">
+      <div style="font-size:9px;color:${s.c};font-weight:700;letter-spacing:0.05em">${s.num}</div>
+      <div style="font-size:8px;color:var(--dim);margin-bottom:3px">${s.years}</div>
+      <div style="font-size:11px;color:${s.c};font-weight:700;line-height:1.2">${s.title}</div>
+      <div style="font-size:9px;color:var(--muted);margin-top:2px;line-height:1.3">${s.sub}</div>
+    </div>
+    ${i < stages.length-1 ? `<div style="flex-shrink:0;display:flex;align-items:center;padding:0 1px"><div style="width:6px;height:1px;background:var(--dim)"></div><div style="width:0;height:0;border-top:3px solid transparent;border-bottom:3px solid transparent;border-left:4px solid var(--dim)"></div></div>` : ''}`;
+  });
+
+  h += `</div></div>`;
+
+  // ── 2026 Deadline Strip ───────────────────────────────────────────────────
+  const milestones = [
+    {mon:'May',  label:'UCH paper\nsubmit',      hot:true},
+    {mon:'Jun',  label:'McCall\nopens',           hot:false},
+    {mon:'Jul',  label:'Rec. letters\nrequested', hot:false},
+    {mon:'Aug\n19', label:'McCall\nSUBMIT',       hot:true},
+    {mon:'Sep',  label:'Cambridge\nsubmit',       hot:false},
+    {mon:'Oct',  label:'McGill\nSOPs final',      hot:false},
+    {mon:'Nov\n15', label:'McGill docs\nuploaded',hot:true},
+    {mon:'Dec',  label:'Cambridge\nsubmit',       hot:false},
+    {mon:'Jan\n15', label:'McGill\nSUBMIT',       hot:true},
+  ];
+
+  h += `<div style="padding:0.6rem 1rem 0">
+    <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem">2026–27 Deadline Strip</div>
+    <div style="display:flex;gap:0;overflow-x:auto;scrollbar-width:none;align-items:flex-start;padding-bottom:0.4rem">`;
+
+  milestones.forEach((m, i) => {
+    const isHot = m.hot;
+    h += `<div style="flex-shrink:0;text-align:center;min-width:44px">
+      <div style="font-size:9px;color:${isHot?'#E24B4A':'var(--muted)'};font-weight:${isHot?'700':'400'};white-space:pre-line;line-height:1.2;margin-bottom:4px">${m.mon}</div>
+      <div style="width:10px;height:10px;border-radius:50%;background:${isHot?'#E24B4A':'var(--dim)'};margin:0 auto 4px;${isHot?'box-shadow:0 0 6px #E24B4A66':''}"></div>
+      <div style="font-size:8px;color:${isHot?'#E24B4A':'var(--muted)'};line-height:1.3;white-space:pre-line">${m.label}</div>
+    </div>
+    ${i < milestones.length-1 ? `<div style="flex-shrink:0;margin-top:13px;padding:0 1px"><div style="width:12px;height:1px;background:var(--dim)"></div></div>` : ''}`;
+  });
+
+  h += `</div></div>`;
+
+  // ── Task list ─────────────────────────────────────────────────────────────
   ACADEMIA.forEach(month => {
     h += `<div class="tl-item"><div class="tl-month">${month.month}</div>`;
     month.tasks.forEach(t => {
