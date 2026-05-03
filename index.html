@@ -374,46 +374,75 @@ const YT_PHASES = [
 ];
 
 const ACADEMIA = [
-  {month:'April–May 2026', tasks:[
-    {id:'ac1',p:'crit',title:'Start Python Phase 1', detail:'CS50P + Kaggle. NumPy, Pandas, Matplotlib, SciPy. 1hr/day minimum.'},
-    {id:'ac2',p:'crit',title:'Email 6 McGill supervisors by May 15', detail:'IPN + Psychiatry + Psychology. 4-sentence personalised emails. Reference CALHM2 poster.'},
-    {id:'ac3',p:'crit',title:'Email CALHM2 poster PI', detail:'Offer to write manuscript sections. Even 4th authorship is transformative.'},
-    {id:'ac4',p:'crit',title:'Register systematic review on PROSPERO', detail:'TBI neuropsychological outcomes in sub-Saharan Africa OR CALHM2 and Alzheimer\'s risk.'},
-    {id:'ac5',p:'high',title:'Confirm English language exemption', detail:'Email McGill graduate admissions and IPN. Get written confirmation.'},
-    {id:'ac6',p:'high',title:'Check NeuroData 2026–27 application date', detail:'Contact admissions@neurodata-master.org. Confirm if final cohort.'},
+  {month:'May 2026', tasks:[
+    {id:'ac1', p:'crit',title:'Register Oxford Clinical Neuroimaging Course — URGENT', detail:'£75 student rate. Registration closes end of April. win.ox.ac.uk. Takes 10 minutes. Do this first.'},
+    {id:'ac2', p:'crit',title:'Python Phase 1 complete by end May', detail:'NumPy, Pandas, Matplotlib, SciPy. CS50P + Kaggle. 1hr/day anchor. Re-run UCH thesis regression in Python → post to GitHub.'},
+    {id:'ac3', p:'crit',title:'UCH Death Anxiety thesis → journal paper (BMC Palliative Care)', detail:'Compress thesis to 4,500 words. Add limitations. Frame Nigerian clinical sample as novelty. Submit by end of May.'},
+    {id:'ac4', p:'crit',title:'Email 6 McGill Psychiatry supervisors by May 15', detail:'Filter by neuroimaging, dementia, global mental health. Attach CV + 1-page research vision. Reference UCH clinical study. Hard blocker for all McGill applications.'},
+    {id:'ac5', p:'high',title:'Email CALHM2 poster PI — offer to write manuscript sections', detail:'Offer intro, discussion, abstract. Even 4th authorship on an Alzheimer\'s genetics paper is extraordinary.'},
+    {id:'ac6', p:'high',title:'Register systematic review on PROSPERO', detail:'Topic: TBI neuropsychological outcomes in sub-Saharan Africa. Takes 1 week. PROSPERO registration is citable on its own.'},
+    {id:'ac7', p:'high',title:'Confirm English language exemption with each school', detail:'Email graduate.psychiatry@mcgill.ca and ipn.admissions@mcgill.ca. Cambridge confirmed via Mastercard Foundation.'},
+    {id:'ac8', p:'med', title:'Begin systematic review literature search (Rayyan)', detail:'PubMed, PsycINFO, Embase. PRISMA flow diagram started by end of May.'},
+    {id:'ac9', p:'med', title:'Replicate UCH thesis analysis in Python → GitHub', detail:'Re-run regression/ANOVA using scipy.stats. First public Python project. Clean Jupyter notebook.'},
   ]},
   {month:'June 2026', tasks:[
-    {id:'ac7',p:'crit',title:'McCall MacBain opens June 1 — START IMMEDIATELY', detail:'Full tuition + $2,300 CAD/month. Deadline Aug 19. Canada\'s largest leadership scholarship.'},
-    {id:'ac8',p:'crit',title:'Python Phase 1 complete → begin Phase 2', detail:'MNE-Python and nilearn. Load EEG data. Begin nilearn fMRI analysis.'},
-    {id:'ac9',p:'crit',title:'Systematic review: full search + screening', detail:'Export to Rayyan. Screen 50 titles/day. PRISMA flow diagram done by end June.'},
-    {id:'ac10',p:'high',title:'R intermediate project on GitHub', detail:'Mixed-effects model. Clean ggplot2 viz. README.'},
-    {id:'ac11',p:'med', title:'Write 500-word master research statement', detail:'Nigerian training → UCH → CALHM2 → comp. neuro → vision. Every SOP adapts this.'},
+    {id:'ac10',p:'crit',title:'McCall MacBain opens June 1 — begin application IMMEDIATELY', detail:'$2,300 CAD/month + full tuition. Aug 19 deadline. Leadership essays: Millennium Fellowship, NAPS (300+), Psych-Walk, Asido (1,000+), BHI.'},
+    {id:'ac11',p:'crit',title:'Python Phase 2 begins — MNE-Python + nilearn', detail:'Load MNE sample EEG. Visualise ERP. Load fMRI from OpenNeuro. 1hr/day anchor.'},
+    {id:'ac12',p:'crit',title:'UCH paper submitted to BMC Palliative Care by end June', detail:'\'Manuscript under review\' status on Jan 15 McGill application is the goal.'},
+    {id:'ac13',p:'crit',title:'Systematic review: full search + screening complete', detail:'Run all databases. Screen 50 titles/day in Rayyan. PRISMA flow diagram complete.'},
+    {id:'ac14',p:'high',title:'Follow up McGill supervisors if no reply (3 weeks)', detail:'One polite follow-up. Propose 20-min Zoom if positive response.'},
+    {id:'ac15',p:'high',title:'Register for ADNI data access (ida.loni.usc.edu)', detail:'Takes 1–2 weeks. Needed for NeuroAI project in August.'},
+    {id:'ac16',p:'high',title:'Complete Wicking Dementia Basics certificate', detail:'Download certificate. Add to CV immediately.'},
+    {id:'ac17',p:'med', title:'Write 500-word master research statement', detail:'Nigerian training → UCH → CALHM2 → comp. neuro → vision. Every SOP is a tailored version.'},
+    {id:'ac18',p:'med', title:'Begin Mastercard Foundation scholarship statement draft', detail:'Themes: leadership, Africa\'s sustainable future, neuropsychology as public health mission.'},
   ]},
   {month:'July 2026', tasks:[
-    {id:'ac12',p:'crit',title:'McCall MacBain essays — final draft', detail:'Leadership essay: Millennium Fellowship, NAPS, Psych-Walk, Asido, BHI. Deadline Aug 19.'},
-    {id:'ac13',p:'crit',title:'Systematic review: data extraction + quality assessment', detail:'CASP or Newcastle-Ottawa Scale. Analysis-ready by end July.'},
-    {id:'ac14',p:'high',title:'Python Phase 2 → Phase 3', detail:'scikit-learn classification pipeline. Classify neuroimaging features.'},
-    {id:'ac15',p:'high',title:'Request letters of recommendation', detail:'Ask Prof. Okhakhume + one senior academic. 1-page brief with deadlines.'},
-    {id:'ac16',p:'med', title:'Begin Mastercard Foundation statement draft', detail:'Academic history, leadership, contribution to Africa\'s sustainable future.'},
+    {id:'ac19',p:'crit',title:'McCall MacBain essays — final draft (deadline Aug 19)', detail:'Leadership essay + character essay. Get feedback from mentor. Submit Aug 19 — no exceptions.'},
+    {id:'ac20',p:'crit',title:'Systematic review: data extraction + quality assessment', detail:'CASP or Newcastle-Ottawa Scale. Extraction spreadsheet complete. Analysis-ready by end July.'},
+    {id:'ac21',p:'crit',title:'Complete JHU Medical Neuroscience certificate', detail:'Full completion. Mention specific modules in SOP.'},
+    {id:'ac22',p:'high',title:'Comp. Neuro project: identify strongest + begin write-up', detail:'Clean code, publication-quality figures. Share with instructor — may want to co-author.'},
+    {id:'ac23',p:'high',title:'Python Phase 2 complete → begin Phase 3 (ML for brain data)', detail:'scikit-learn classification pipeline. Load ADNI data.'},
+    {id:'ac24',p:'high',title:'Request letters of recommendation', detail:'Prof. Okhakhume + one other. 1-page brief with deadlines and bullet points. Give referees 3+ months.'},
+    {id:'ac25',p:'high',title:'R: mixed-effects model project — upload to GitHub', detail:'Clean ggplot2 visualisation with README.'},
+    {id:'ac26',p:'med', title:'Mastercard Foundation statement — second draft', detail:'Refine Africa framing: \'Establishing neuropsychological care for 220 million Nigerians.\''},
   ]},
   {month:'August 2026', tasks:[
-    {id:'ac17',p:'crit',title:'Submit McCall MacBain by Aug 19 — HARD DEADLINE', detail:'All materials: leadership essays, academic record, two references. Do not miss this.'},
-    {id:'ac18',p:'crit',title:'Systematic review preprint posted', detail:'PsyArXiv or bioRxiv. Target: Neuropsychology Review, Brain and Behavior.'},
-    {id:'ac19',p:'high',title:'CALHM2 manuscript: push team for preprint', detail:'Follow up with PI. Polish intro, write abstract, format references.'},
-    {id:'ac20',p:'high',title:'GitHub portfolio: 3+ neuroscience data projects', detail:'Clean code, descriptive READMEs. Committees Google applicants.'},
+    {id:'ac27',p:'crit',title:'AUG 19: McCall MacBain — SUBMIT (HARD DEADLINE)', detail:'All materials: leadership essays, academic record, two references. Do not miss this.'},
+    {id:'ac28',p:'crit',title:'Systematic review: full manuscript + post preprint', detail:'Post to PsyArXiv or bioRxiv. Submit to Neuropsychology Review or Brain & Behavior.'},
+    {id:'ac29',p:'crit',title:'Cambridge: research MRC-CBU faculty — identify 2–3 supervisors', detail:'Reference specific researchers\' work in personal statement.'},
+    {id:'ac30',p:'high',title:'CALHM2 manuscript — push team for bioRxiv preprint', detail:'Polish introduction, write abstract, format references. Preprint on Cambridge application = transformative.'},
+    {id:'ac31',p:'high',title:'Python Phase 3: ML analysis on ADNI/OpenNeuro dataset', detail:'Extract features. Run classifier. Nested cross-validation.'},
+    {id:'ac32',p:'high',title:'Oxford Neuroimaging Course — complete modules 1–3', detail:'Watch lectures as background during commute/meals.'},
+    {id:'ac33',p:'med', title:'GitHub portfolio: 3+ neuroscience projects live', detail:'Clean READMEs. Admissions committees Google applicants.'},
   ]},
   {month:'September 2026', tasks:[
-    {id:'ac21',p:'crit',title:'Cambridge application — submit in first 2 weeks', detail:'Opt in for Mastercard Foundation. 300-word PS, two references, transcript.'},
-    {id:'ac22',p:'crit',title:'NeuroData application — submit Round 1', detail:'First-round = maximum scholarship consideration. Specify Padua (Cog. Neuro) track.'},
-    {id:'ac23',p:'crit',title:'Confirm McGill supervisor agreement by Sept 15', detail:'Must have explicit email agreement before submitting. Hard blocker.'},
-    {id:'ac24',p:'high',title:'Begin McGill MSc SOPs', detail:'Para 1: supervisor + research question. Para 2: training. Para 3: why McGill.'},
+    {id:'ac34',p:'crit',title:'Cambridge application — submit in first 2 weeks', detail:'Opt in for Mastercard Foundation during application. 300-word PS, two references.'},
+    {id:'ac35',p:'crit',title:'McGill Mental Health MSc SOP — begin draft', detail:'Para 1: supervisor + specific research question. Para 2: training. Para 3: why McGill. UCH study = anchor.'},
+    {id:'ac36',p:'crit',title:'Confirm McGill supervisor agreement by Sept 15', detail:'Must have explicit email consent. Hard blocker — unblocks application entirely.'},
+    {id:'ac37',p:'high',title:'NeuroData application — submit Round 1', detail:'Specify Padua Cognitive Neuroscience track. African neurodegeneration angle.'},
+    {id:'ac38',p:'high',title:'Email NeuroData coordinator before applying', detail:'5 sentences: First Class BSc, CALHM2, computational training. Most applicants apply cold.'},
+    {id:'ac39',p:'high',title:'Oxford Neuroimaging Course — complete modules 4–5', detail:'Certificate earned by October.'},
+    {id:'ac40',p:'med', title:'Write 1-page research vision document for supervisor emails', detail:'Research question → global importance → methods → target lab → what you bring.'},
   ]},
-  {month:'Oct–Jan 2027', tasks:[
-    {id:'ac25',p:'crit',title:'McGill MSc Psychology SOP final — submit Nov 10', detail:'All docs uploaded by Nov 15. Chase referees first week of October.'},
-    {id:'ac26',p:'crit',title:'Dec: Cambridge MPhil — SUBMIT', detail:'Mastercard Foundation scholarship statement included.'},
-    {id:'ac27',p:'high',title:'Dec 31: NeuroAI paper to bioRxiv', detail:'Listed on Jan 15 McGill applications.'},
-    {id:'ac28',p:'crit',title:'Jan 15: McGill IPN MSc — SUBMIT', detail:'Named supervisor, SOP referencing their work, all docs.'},
-    {id:'ac29',p:'crit',title:'Jan 15: McGill MSc Mental Health — SUBMIT', detail:'Individually tailored SOP.'},
+  {month:'October 2026', tasks:[
+    {id:'ac41',p:'crit',title:'McGill MSc Psychology/IPN SOPs — final drafts', detail:'Submit 3 weeks before deadline. Chase referees first week of October.'},
+    {id:'ac42',p:'high',title:'Python Phase 3 complete → begin Phase 4 (NeuroAI)', detail:'Working PyTorch model on brain data by November.'},
+    {id:'ac43',p:'high',title:'CALHM2 manuscript — final push', detail:'Preprint link on Cambridge application = transformative signal.'},
+    {id:'ac44',p:'med', title:'NeuroAI project: classifier working — begin write-up', detail:'Introduction, Methods, Results, Discussion. SHAP analysis.'},
+  ]},
+  {month:'Nov–Dec 2026', tasks:[
+    {id:'ac45',p:'crit',title:'NOV 15: All McGill MSc docs uploaded', detail:'Transcripts, SOPs, CVs, English evidence, reference letters. All documents showing received in portal.'},
+    {id:'ac46',p:'crit',title:'DEC: Cambridge MPhil — SUBMIT (Mastercard Foundation opt-in)', detail:'Confirmation email saved. Mastercard Foundation scholarship statement included.'},
+    {id:'ac47',p:'high',title:'McGill IPN + Mental Health SOPs refined', detail:'IPN: lead with Python + comp. neuro. Mental Health: UCH study + CALHM2.'},
+    {id:'ac48',p:'high',title:'Comp. Neuro preprint — bioRxiv by Dec 15', detail:'4–6 page paper from strongest course project.'},
+    {id:'ac49',p:'med', title:'NeuroAI paper — complete draft + post bioRxiv by Dec 31', detail:'Listed on Jan 15 McGill applications.'},
+  ]},
+  {month:'January 2027', tasks:[
+    {id:'ac50',p:'crit',title:'JAN 15: McGill MSc Mental Health — SUBMIT', detail:'Individually tailored SOP. UCH study as anchor. Supervisor named. All docs uploaded.'},
+    {id:'ac51',p:'crit',title:'JAN 15: McGill IPN MSc — SUBMIT', detail:'Named supervisor, specific research question, transcripts, 2 references.'},
+    {id:'ac52',p:'high',title:'Begin APS equivalency assessment of UI psychology degree', detail:'Required for Monash PhD Clinical Neuropsychology. Takes months — start early during Masters.'},
+    {id:'ac53',p:'high',title:'Research Monash Clinical Neuropsychology supervisors', detail:'Browse Monash Supervisor Connect. Identify 3 faculty aligned with neuropsychology + Africa.'},
+    {id:'ac54',p:'med', title:'Plan Stage 2: Maxwell King Scholarship prep begins', detail:'Draft research vision for Monash PhD application. Begin 2028/2029 preparation.'},
   ]},
 ];
 
@@ -645,8 +674,8 @@ function toggleYt(id) { ytChecked[id] = !ytChecked[id]; save('yt_checked', ytChe
 
 function renderAcademia() {
   let h = `<div class="banner" style="border-left:3px solid #D4537E">
-    <div class="banner-lbl">Next critical deadline</div>
-    <p>McCall MacBain opens <strong>June 1, 2026</strong> — Canada&#39;s largest leadership scholarship. Full tuition + $2,300 CAD/month. Your profile (Millennium Fellowship, NAPS, BHI) is exactly what they want. Start essays in May.</p>
+    <div class="banner-lbl">Masterplan V3 — Mission: Neuropsychology in Nigeria</div>
+    <p>Stage 1: Masters abroad 2027–2029 (NeuroData or McGill). Stage 2: Monash PhD Clinical Neuropsychology 2029–2033 — Maxwell King AUD $53k/yr. Exit as the only clinically registered neuropsychologist in Nigeria. <strong>Next hard deadline: McCall MacBain — Aug 19, 2026.</strong></p>
   </div>`;
 
   ACADEMIA.forEach(month => {
@@ -745,11 +774,12 @@ function renderOverview() {
 
   h += `<div class="shdr">Target programs</div>`;
   [
-    {name:'NeuroData MSc', school:'Bar-Ilan + Padua (Erasmus Mundus)', status:'#1 — Funded', c:'#1D9E75'},
-    {name:'MPhil Cognitive Neurosciences', school:'Cambridge — Mastercard Foundation', status:'Reach — Funded', c:'#D4537E'},
-    {name:'MSc Mental Health (Thesis)', school:'McGill — Psychiatry', status:'Strong fit', c:'#378ADD'},
-    {name:'MSc Psychology (Behav. Neuro)', school:'McGill — Psychology', status:'Supervisor needed', c:'#378ADD'},
-    {name:'MSc Neuroscience (IPN)', school:'McGill', status:'Supervisor needed', c:'#378ADD'},
+    {name:'NeuroData MSc',                  school:'Bar-Ilan + Padua (Erasmus Mundus)', status:'#1 — Funded',          c:'#1D9E75'},
+    {name:'MPhil Cognitive Neurosciences',  school:'Cambridge — Mastercard Foundation', status:'Reach — Fully Funded', c:'#D4537E'},
+    {name:'MSc Mental Health (Thesis)',     school:'McGill — Psychiatry',               status:'Strong fit',           c:'#378ADD'},
+    {name:'MSc Psychology (Behav. Neuro)', school:'McGill — Psychology',               status:'Backup option',        c:'#378ADD'},
+    {name:'MSc Neuroscience (IPN)',         school:'McGill',                            status:'Computational track',  c:'#378ADD'},
+    {name:'PhD Clinical Neuropsychology',   school:'Monash — Maxwell King AUD $53k/yr', status:'Stage 2 — 2029',       c:'#EF9F27'},
   ].forEach(p => {
     h += `<div class="prog">
       <div class="prog-dot" style="background:${p.c}"></div>
@@ -763,9 +793,10 @@ function renderOverview() {
 
   h += `<div class="shdr">Scholarship deadlines</div>`;
   [
-    ['McCall MacBain', 'Aug 19, 2026', 'Full tuition + $2,300/mo', '#D4537E'],
-    ['Mastercard Foundation (Cambridge)', 'Sept/Oct 2026', 'Full tuition + stipend + flights', '#1D9E75'],
-    ['Erasmus Mundus (NeuroData)', 'Jan/Feb 2027', 'Full tuition + €1,400/mo', '#EF9F27'],
+    ['McCall MacBain — McGill',          'Aug 19, 2026',    '$2,300 CAD/mo + full tuition', '#D4537E'],
+    ['Mastercard Foundation (Cambridge)','Sept/Oct 2026',   'Full tuition + stipend + flights', '#1D9E75'],
+    ['Erasmus Mundus (NeuroData)',        'Jan/Feb 2027',    'Full tuition + €1,400/mo',     '#EF9F27'],
+    ['Maxwell King — Monash',            'Feb 2029 (S2)',   'AUD $53,608/yr + research allowance', '#EF9F27'],
   ].forEach(([name, dl, val, c]) => {
     h += `<div class="mrow">
       <div>
