@@ -214,7 +214,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Mon
   </div>
   <div class="nav">
     <button class="nav-btn active" onclick="sw('schedule',this)">Today</button>
-    <button class="nav-btn" onclick="sw('youtube',this)">YouTube</button>
     <button class="nav-btn" onclick="sw('academia',this)">Academia</button>
     <button class="nav-btn" onclick="sw('ai',this)">AI Biz</button>
     <button class="nav-btn" onclick="sw('overview',this)">Overview</button>
@@ -222,7 +221,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Mon
   </div>
   <div class="content">
     <div id="view-schedule"></div>
-    <div id="view-youtube" style="display:none"></div>
     <div id="view-academia" style="display:none"></div>
     <div id="view-ai" style="display:none"></div>
     <div id="view-overview" style="display:none"></div>
@@ -250,61 +248,68 @@ const C = {
 };
 
 const WD = [
-  {t:'6:00',e:'6:15', cat:'morning',  title:'Wake — hydrate, cold water',         sub:'No phone. Water first. Body on.'},
-  {t:'6:15',e:'7:00', cat:'god',      title:'Word of God + Prayer',               sub:'Bible study. Pray. Non-negotiable — sets the tone.'},
-  {t:'7:00',e:'7:45', cat:'self',     title:'Gym',                                sub:'Strength or cardio. Walk if needed. Sweat daily.'},
-  {t:'7:45',e:'8:00', cat:'self',     title:'Grooming + podcast',                 sub:'Get dressed sharp. AI or neuroscience podcast.'},
-  {t:'8:00',e:'10:00',cat:'ai',       title:'Deep work — AI biz',                 sub:'Outreach, builds, client work. Go outside — café or park bench.'},
-  {t:'10:00',e:'11:30',cat:'academic',title:'Academia block',                     sub:'Python phases, systematic review, supervisor emails, SOPs.'},
-  {t:'11:30',e:'12:30',cat:'youtube', title:'YouTube — content machine',           sub:'Mon/Thu: run pipeline. Tue/Fri: review + approve Telegram output.'},
-  {t:'12:30',e:'13:15',cat:'self',    title:'Lunch + reading',                    sub:'Away from screen. 15–20 pages.'},
-  {t:'13:15',e:'14:30',cat:'academic',title:'Academia block 2 / catch-up',        sub:'Heavy week? Use for job prep. Otherwise Python or preprint.'},
-  {t:'14:30',e:'15:00',cat:'buffer',  title:'Transition — pre-work wind down',    sub:'Close personal tasks. Brief walk. Review work agenda.'},
-  {t:'15:00',e:'21:00',cat:'job',     title:'Job — 6 hours',                      sub:'Deep focus. Log off at 9pm sharp.'},
-  {t:'21:00',e:'21:30',cat:'morning', title:'Decompress',                         sub:'Walk. Breathe. Reset.'},
-  {t:'21:30',e:'22:15',cat:'god',     title:'Evening prayer + journal',           sub:'Close with God. 3 things. Review tomorrow.'},
-  {t:'22:15',e:'00:00',cat:'self',    title:'Wind down + sleep prep',             sub:'No screens. Lights out midnight.'},
-  {t:'00:00',e:'06:00',cat:'morning', title:'Sleep — 6 hours',                   sub:'Protect this.'},
+  {t:'6:00', e:'6:15', cat:'morning',  title:'Wake — hydrate, cold water',          sub:'No phone. Water first. Body on.'},
+  {t:'6:15', e:'7:15', cat:'god',      title:'Word of God + Prayer',                sub:'Bible study. Pray. Non-negotiable — sets the tone.'},
+  {t:'7:15', e:'7:30', cat:'self',     title:'Grooming + prep — leave by 7:30',     sub:'Get dressed sharp. Bag ready. Out the door.'},
+  {t:'7:30', e:'11:00',cat:'self',     title:'Gym',                                 sub:'Strength or cardio. Full session. Back by 11am.'},
+  {t:'11:00',e:'11:30',cat:'self',     title:'Shower + grooming',                   sub:'Reset properly. Get dressed sharp.'},
+  {t:'11:30',e:'13:30',cat:'ai',       title:'Deep work — AI biz',                  sub:'Outreach, builds, client work. Go outside — café or park bench.'},
+  {t:'13:30',e:'14:30',cat:'academic', title:'Academia block',                      sub:'Python phases, systematic review, supervisor emails, SOPs.'},
+  {t:'14:30',e:'15:00',cat:'buffer',   title:'Transition — pre-work wind down',     sub:'Close personal tasks. Brief walk. Review work agenda.'},
+  {t:'15:00',e:'21:00',cat:'job',      title:'Job — 6 hours',                       sub:'Deep focus. Log off at 9pm sharp.'},
+  {t:'21:00',e:'21:30',cat:'morning',  title:'Decompress',                          sub:'Walk. Breathe. Reset.'},
+  {t:'21:30',e:'22:15',cat:'god',      title:'Evening prayer + journal',            sub:'Close with God. 3 things. Review tomorrow.'},
+  {t:'22:15',e:'00:00',cat:'self',     title:'Wind down + sleep prep',              sub:'No screens. Lights out midnight.'},
+  {t:'00:00',e:'06:00',cat:'morning',  title:'Sleep — 6 hours',                    sub:'Protect this.'},
 ];
 
 const WED = [
-  {t:'6:00',e:'6:15', cat:'morning',  title:'Wake — hydrate',                    sub:'Water first. No phone.'},
-  {t:'6:15',e:'7:00', cat:'god',      title:'Word of God + Prayer',              sub:'Non-negotiable. Start anchored.'},
-  {t:'7:00',e:'7:45', cat:'self',     title:'Gym',                               sub:'Shorter session — still get it done.'},
-  {t:'7:45',e:'8:00', cat:'self',     title:'Grooming + podcast',                sub:'Sharp. Intentional.'},
-  {t:'8:00',e:'9:30', cat:'ai',       title:'Deep work — AI biz',                sub:'Tighter Wednesday. Use it hard. Walk to a nearby spot.'},
-  {t:'9:30',e:'10:30',cat:'academic', title:'Academia block',                    sub:'Python, systematic review, McCall MacBain prep.'},
-  {t:'10:30',e:'11:15',cat:'youtube', title:'YouTube — check Telegram approvals',sub:'Approve pipeline output. Fix any failed videos.'},
-  {t:'11:15',e:'12:00',cat:'buffer',  title:'Admin + job prep',                  sub:'Emails. Prep 2pm meeting — review agenda and notes.'},
-  {t:'12:00',e:'13:00',cat:'self',    title:'Lunch + reading',                   sub:'Decompress before the long work day.'},
-  {t:'13:00',e:'13:50',cat:'buffer',  title:'Transition block',                  sub:'Meeting materials. Set up environment.'},
-  {t:'14:00',e:'15:00',cat:'job',     title:'Job — meeting block',               sub:'Wednesday meeting starts 2pm.'},
-  {t:'15:00',e:'16:00',cat:'buffer',  title:'Break hour (job)',                  sub:'Walk. Personal urgent catch-up if needed.'},
-  {t:'16:00',e:'21:00',cat:'job',     title:'Job continues',                     sub:'Until 9pm.'},
-  {t:'21:00',e:'21:30',cat:'morning', title:'Decompress',                        sub:'Reset after long day.'},
-  {t:'21:30',e:'22:15',cat:'god',     title:'Evening prayer + journal',          sub:'Close with God.'},
-  {t:'22:15',e:'00:00',cat:'self',    title:'Wind down',                         sub:'Lights out midnight.'},
-  {t:'00:00',e:'06:00',cat:'morning', title:'Sleep — 6 hours',                  sub:'Protect it.'},
+  {t:'6:00', e:'6:15', cat:'morning',  title:'Wake — hydrate',                     sub:'Water first. No phone.'},
+  {t:'6:15', e:'7:15', cat:'god',      title:'Word of God + Prayer',               sub:'Non-negotiable. Start anchored.'},
+  {t:'7:15', e:'7:30', cat:'self',     title:'Grooming + prep — leave by 7:30',    sub:'Sharp. Out the door.'},
+  {t:'7:30', e:'11:00',cat:'self',     title:'Gym',                                sub:'Steady session. Back by 11am.'},
+  {t:'11:00',e:'11:30',cat:'self',     title:'Shower + grooming',                  sub:'Reset. Prep for the day.'},
+  {t:'11:30',e:'13:00',cat:'ai',       title:'Deep work — AI biz',                 sub:'Tighter Wednesday. Use it hard.'},
+  {t:'13:00',e:'13:50',cat:'academic', title:'Academia block + admin',             sub:'Python, systematic review, McCall MacBain prep. Prep 2pm meeting.'},
+  {t:'14:00',e:'15:00',cat:'job',      title:'Job — meeting block',                sub:'Wednesday meeting starts 2pm.'},
+  {t:'15:00',e:'16:00',cat:'buffer',   title:'Break hour (job)',                   sub:'Walk. Personal urgent catch-up if needed.'},
+  {t:'16:00',e:'21:00',cat:'job',      title:'Job continues',                      sub:'Until 9pm.'},
+  {t:'21:00',e:'21:30',cat:'morning',  title:'Decompress',                         sub:'Reset after long day.'},
+  {t:'21:30',e:'22:15',cat:'god',      title:'Evening prayer + journal',           sub:'Close with God.'},
+  {t:'22:15',e:'00:00',cat:'self',     title:'Wind down',                          sub:'Lights out midnight.'},
+  {t:'00:00',e:'06:00',cat:'morning',  title:'Sleep — 6 hours',                   sub:'Protect it.'},
 ];
 
-const WKD = [
-  {t:'7:00',e:'7:15', cat:'morning',  title:'Wake — hydrate',                    sub:'Slightly later. Still intentional.'},
-  {t:'7:15',e:'8:15', cat:'god',      title:'Word of God + Prayer',              sub:'Longer session. Worship, intercession, study.'},
-  {t:'8:15',e:'9:15', cat:'self',     title:'Gym — full session',                sub:'No rush. Go hard. Sunday: lighter if needed.'},
-  {t:'9:15',e:'9:45', cat:'self',     title:'Breakfast + podcast',               sub:'Cook real food. AI or neuroscience podcast.'},
-  {t:'9:45',e:'12:30',cat:'ai',       title:'Deep AI work — long block',         sub:'Build a tool, client deliverable, automation. Your weekend runway.'},
-  {t:'12:30',e:'13:30',cat:'self',    title:'Lunch + reading',                   sub:'Step away. 20–30 pages. Real break.'},
-  {t:'13:30',e:'15:30',cat:'youtube', title:'YouTube — content machine batch',   sub:'Sat: deploy pipeline, generate week\'s videos, review. Sun: approve queue, tune prompts.'},
-  {t:'15:30',e:'17:30',cat:'academic',title:'Academia — long block',             sub:'SOP drafts, Python phases, systematic review, preprint push.'},
-  {t:'17:30',e:'19:00',cat:'self',    title:'Go out — deliberate change of scene',sub:'Walk to a café, park, anywhere. No car needed. This protects your energy.'},
-  {t:'19:00',e:'20:30',cat:'ai',      title:'AI learning / portfolio build',     sub:'Course, new tool, GitHub push, case study write-up.'},
-  {t:'20:30',e:'21:30',cat:'morning', title:'Dinner + decompress',               sub:'No work. Just be.'},
-  {t:'21:30',e:'22:30',cat:'god',     title:'Evening prayer + weekly review',    sub:'Sunday: full weekly review. What moved? What changes?'},
-  {t:'22:30',e:'01:00',cat:'self',    title:'Wind down',                         sub:'Read. No screens. Sleep by 1am.'},
-  {t:'01:00',e:'07:00',cat:'morning', title:'Sleep — 6 hours',                  sub:'Protect it.'},
+const SAT = [
+  {t:'6:00', e:'6:15', cat:'morning',  title:'Wake — hydrate',                     sub:'Slightly later. Still intentional.'},
+  {t:'6:15', e:'7:15', cat:'god',      title:'Word of God + Prayer',               sub:'Longer session. Worship, intercession, study.'},
+  {t:'7:15', e:'7:30', cat:'self',     title:'Grooming + prep — leave by 7:30',    sub:'Get ready. Out the door.'},
+  {t:'7:30', e:'11:00',cat:'self',     title:'Gym — full session',                 sub:'No rush. Go hard. Back by 11am.'},
+  {t:'11:00',e:'11:30',cat:'self',     title:'Shower + breakfast',                 sub:'Cook real food. Refuel properly.'},
+  {t:'11:30',e:'13:30',cat:'ai',       title:'Deep AI work — long block',          sub:'Build a tool, client deliverable, automation. Your weekend runway.'},
+  {t:'13:30',e:'14:30',cat:'self',     title:'Lunch + reading',                    sub:'Step away. 20–30 pages. Real break.'},
+  {t:'14:30',e:'17:00',cat:'academic', title:'Academia — long block',              sub:'SOP drafts, Python phases, systematic review, preprint push.'},
+  {t:'17:00',e:'18:30',cat:'self',     title:'Go out — deliberate change of scene',sub:'Walk to a café, park, anywhere. No car needed. Protects your energy.'},
+  {t:'18:30',e:'20:00',cat:'ai',       title:'AI learning / portfolio build',      sub:'Course, new tool, GitHub push, case study write-up.'},
+  {t:'20:00',e:'21:00',cat:'morning',  title:'Dinner + decompress',                sub:'No work. Just be.'},
+  {t:'21:00',e:'22:00',cat:'god',      title:'Evening prayer + journal',           sub:'Close with God. 3 things. Review tomorrow.'},
+  {t:'22:00',e:'01:00',cat:'self',     title:'Wind down',                          sub:'Read. No screens. Sleep by 1am.'},
+  {t:'01:00',e:'07:00',cat:'morning',  title:'Sleep — 6 hours',                   sub:'Protect it.'},
 ];
 
-const YT_PHASES = [
+const SUN = [
+  {t:'6:30', e:'7:00', cat:'morning',  title:'Wake — hydrate + prepare',           sub:'Get ready for church. Dress intentionally.'},
+  {t:'7:00', e:'14:00',cat:'god',      title:'Church',                             sub:'Be fully present. Worship, fellowship, word. No phone during service.'},
+  {t:'14:00',e:'16:00',cat:'self',     title:'Rest + decompress',                  sub:'Eat well. Nap if needed. No work. True rest.'},
+  {t:'16:00',e:'18:00',cat:'self',     title:'Weekly review + plan next week',     sub:'What moved? What didn\'t? Set 3 priorities for Monday. Review all tracks.'},
+  {t:'18:00',e:'19:30',cat:'ai',       title:'Light catch-up (optional)',          sub:'Low intensity only — follow-ups, reading, light admin. No heavy builds.'},
+  {t:'19:30',e:'20:30',cat:'self',     title:'Dinner',                             sub:'No screens. Rest the mind.'},
+  {t:'20:30',e:'22:00',cat:'god',      title:'Evening prayer + weekly review (God)',sub:'Full Sunday closing prayer. What did God do this week? Gratitude. Surrender.'},
+  {t:'22:00',e:'01:00',cat:'self',     title:'Wind down',                          sub:'Read. No screens. Sleep by 1am.'},
+  {t:'01:00',e:'07:00',cat:'morning',  title:'Sleep — 6 hours',                   sub:'Protect it.'},
+];
+
+const _REMOVED_YT_PHASES = [
   {id:'w1',lbl:'Week 1',title:'Foundation',dates:'May 3–9',
    goal:'Type a headline → get a polished script. No manual steps.',
    tasks:[
@@ -446,36 +451,121 @@ const ACADEMIA = [
   ]},
 ];
 
-const AI_WEEKS = [
-  {lbl:'W1', title:'Build your foundation', color:'#378ADD',
-   goal:'Get everything in place before talking to a single client.',
-   tasks:[
-    {id:'ai1',day:'Day 1–2', title:'Write your one-sentence offer'},
-    {id:'ai2',day:'Day 3–4', title:'Build portfolio page — Carrd or Notion'},
-    {id:'ai3',day:'Day 5–6', title:'Document GFunnel, Pipedex, Gogo\'s as case studies'},
-    {id:'ai4',day:'Day 7',   title:'LinkedIn headline + Apollo/Hunter for outreach'},
-  ]},
-  {lbl:'W2', title:'Warm outreach first', color:'#1D9E75',
-   goal:'Talk to real humans. Get your first conversation.',
-   tasks:[
-    {id:'ai5',day:'Day 8–9',   title:'Mine every contact — WhatsApp, LinkedIn, email'},
-    {id:'ai6',day:'Day 10–12', title:'20 LinkedIn cold outreach to UK/US agency owners'},
-    {id:'ai7',day:'Day 13–14', title:'Follow up + offer free 30-min Operations Audit'},
-  ]},
-  {lbl:'W3', title:'Get on calls — close first client', color:'#EF9F27',
-   goal:'Convert conversations into paid projects.',
-   tasks:[
-    {id:'ai8',day:'Day 15–17', title:'Run audit calls — listen 80%, talk 20%'},
-    {id:'ai9',day:'Day 18–19', title:'Send proposals — $1,500–$3,000 first build'},
-    {id:'ai10',day:'Day 20–21',title:'Handle objections + close'},
-  ]},
-  {lbl:'W4', title:'Deliver + plant seeds', color:'#D4537E',
-   goal:'Wow your first client. Build your referral engine.',
-   tasks:[
-    {id:'ai11',day:'Day 22–26',title:'Deliver exceptional first build'},
-    {id:'ai12',day:'Day 27–28',title:'Offer the referral deal'},
-    {id:'ai13',day:'Day 29–30',title:'Double outreach — 40 messages'},
-  ]},
+const AI_PHASES = [
+  {id:'p1', lbl:'P1', title:'Foundation & First Money', period:'Now — Week 3', color:'#378ADD',
+   goal:'Profile live, proposals sending, first reply within 3 weeks.',
+   upwork:[
+    {id:'aiu1', text:'Rate set to $50/hr — do this today, not tomorrow'},
+    {id:'aiu2', text:'New bio live — full rewrite from revamp doc'},
+    {id:'aiu3', text:'3 specialised profiles set up (AI Automation, GHL, Voice AI)'},
+    {id:'aiu4', text:'2 portfolio pieces live — Gogo\'s and Pipedex done'},
+    {id:'aiu5', text:'5 proposals/day using template — always custom first line'},
+   ],
+   biz:[
+    {id:'aib1', text:'One-sentence offer written and memorized'},
+    {id:'aib2', text:'Portfolio page live on Notion or Carrd'},
+    {id:'aib3', text:'Network outreach — 20 messages asking for referrals, not clients'},
+    {id:'aib4', text:'Tracking sheet set up — proposals, replies, calls, revenue'},
+   ],
+   rules:[
+    {lbl:'Jobs to target', val:'GHL builds, n8n/Make automation, AI agents, ops workflow builds'},
+    {lbl:'Proof to use',   val:'Gogo\'s for lead systems. Pipedex for integration + voice AI.'},
+    {lbl:'Proposal goal',  val:'5/day. If open rate below 20%, rewrite the first line.'},
+    {lbl:'Rate rule',      val:'$50/hr or $1,200+ fixed. Offer smaller scope, never discount.'},
+   ],
+   exit:'First Upwork discovery call booked. The call is the win — not the close.',
+  },
+  {id:'p2', lbl:'P2', title:'Close & Deliver First Client', period:'Weeks 3–8', color:'#1D9E75',
+   goal:'Convert a call into a paid project. Deliver it so well they refer you.',
+   upwork:[
+    {id:'aiu6', text:'Run discovery calls — 80% listening, 20% talking'},
+    {id:'aiu7', text:'Send proposal within 24hrs of every call. One page only.'},
+    {id:'aiu8', text:'Target $1,500–$3,000 for first fixed-price project — no lower'},
+    {id:'aiu9', text:'Keep applying 5/day — pipeline must never empty during delivery'},
+    {id:'aiu10',text:'Raise rate to $55/hr immediately after first 5-star review'},
+   ],
+   biz:[
+    {id:'aib5', text:'Update client every 2 days — over-communicate, never go quiet'},
+    {id:'aib6', text:'Deliver on time — under-promise, over-deliver'},
+    {id:'aib7', text:'Document everything — client must understand what was built'},
+    {id:'aib8', text:'Ask for review immediately after delivery, not a week later'},
+    {id:'aib9', text:'Write the case study before closing the contract'},
+   ],
+   rules:[
+    {lbl:'Review strategy', val:'"Would you mind leaving a quick review?" Ask simply, right after delivery.'},
+    {lbl:'Boost proposals', val:'Use Connects to boost 1–2 high-fit jobs per week only.'},
+    {lbl:'JSS protection',  val:'Never take a job you can\'t deliver excellently. One bad review is costly.'},
+    {lbl:'Off-platform',    val:'After strong delivery, offer to continue direct (saves fees long term).'},
+   ],
+   exit:'First paid project complete. 5-star review received. Case study written and portfolio updated.',
+  },
+  {id:'p3', lbl:'P3', title:'Productize & Build Retainers', period:'Months 2–4', color:'#EF9F27',
+   goal:'Stop building from scratch. Package your best offer. Land 2–3 monthly retainers.',
+   upwork:[
+    {id:'aiu11',text:'Pitch retainer after every build — "$300–$500/month maintenance"'},
+    {id:'aiu12',text:'3rd portfolio piece added — GFunnel or first Upwork client build'},
+    {id:'aiu13',text:'Raise rate to $65/hr once you have 3+ reviews above 4.8'},
+   ],
+   biz:[
+    {id:'aib10',text:'Build your playbook — document how you deliver every project type'},
+    {id:'aib11',text:'Update project catalog — 3 fixed packages at correct pricing'},
+    {id:'aib12',text:'Direct LinkedIn outreach begins — 20 agency owners/week'},
+    {id:'aib13',text:'Referral offer activated — "Refer one client, I build you one automation free"'},
+    {id:'aib14',text:'Record intro video — 60 seconds, camera on, no slides, real and confident'},
+    {id:'aib15',text:'Simple one-page website — offer, case studies, book a call button'},
+   ],
+   rules:[
+    {lbl:'Target jobs',      val:'Longer contracts, retainer language in post, ongoing automation needs.'},
+    {lbl:'Profile update',   val:'Add new case study. Update bio results with real Upwork client outcomes.'},
+    {lbl:'Revenue split',    val:'Target 60% Upwork, 40% direct by end of Phase 3.'},
+    {lbl:'Direct migration', val:'Start moving best Upwork clients to direct contracts to avoid long-term fees.'},
+   ],
+   exit:'$1,000–$2,500/month recurring from retainers. At least 2 clients paying monthly. Playbook documented.',
+  },
+  {id:'p4', lbl:'P4', title:'Scale — Direct + Upwork as Overflow', period:'Months 4–8', color:'#D4537E',
+   goal:'Upwork becomes one channel, not the only one. Monthly recurring hits $3,500+.',
+   upwork:[
+    {id:'aiu14',text:'Apply selectively — only high-value jobs above $2,000 budget'},
+    {id:'aiu15',text:'Rate at $75–$85/hr — let rate filter bad-fit clients automatically'},
+    {id:'aiu16',text:'Inbound focus — profile and JSS do the work while you outreach direct'},
+    {id:'aiu17',text:'Off-platform migration — long-term clients moved to direct contracts'},
+   ],
+   biz:[
+    {id:'aib16',text:'40 LinkedIn messages/week to UK/US agency owners'},
+    {id:'aib17',text:'Free audit offer — 30-min ops audit, then pitch. 3–5 calls/week.'},
+    {id:'aib18',text:'Hire first contractor if project load exceeds solo capacity'},
+    {id:'aib19',text:'Automate your own outreach and follow-up systems'},
+   ],
+   rules:[
+    {lbl:'Upwork revenue',  val:'$1,500–$2,500/month — selective, high-rate projects only.'},
+    {lbl:'Direct revenue',  val:'$2,000–$4,000/month from 2–3 retainers plus project work.'},
+    {lbl:'Combined target', val:'$3,500–$6,000/month by end of Phase 4.'},
+    {lbl:'Decision point',  val:'Agency vs product path becomes clear from your client data.'},
+   ],
+   exit:'$3,500+/month for 2 consecutive months. More leads than you can handle alone.',
+  },
+  {id:'p5', lbl:'P5', title:'The Scale Decision', period:'Month 8–12+', color:'#7F77DD',
+   goal:'You have proof, revenue, and recurring clients. Decide which version of bigger you build.',
+   upwork:[
+    {id:'aiu18',text:'Agency: hire 1–2 contractors to deliver while you sell and architect'},
+    {id:'aiu19',text:'Rate at $100/hr+ — you are now a senior specialist, price accordingly'},
+    {id:'aiu20',text:'Never kill the profile — Top Rated badge is a permanent trust signal'},
+    {id:'aiu21',text:'Exit Upwork dependency when direct revenue covers 80% for 3 months'},
+   ],
+   biz:[
+    {id:'aib20',text:'Product: identify repeatable build and turn it into a niche SaaS tool'},
+    {id:'aib21',text:'Agency path: Dan Martell model — you become the thinker, not the builder'},
+    {id:'aib22',text:'Long-term vision: AI + neuroscience intersection — brain health tools'},
+    {id:'aib23',text:'Content begins: document your builds publicly, attract inbound at scale'},
+   ],
+   rules:[
+    {lbl:'Agency signal',  val:'More leads than you handle alone. Revenue supports a contractor hire.'},
+    {lbl:'Product signal', val:'Same system built repeatedly. Clients ask "can I just access this myself?"'},
+    {lbl:'Upwork role',    val:'Lead gen for agency, or cashflow runway while product MRR grows.'},
+    {lbl:'North star',     val:'A business that runs without you having to apply for work.'},
+   ],
+   exit:'$10,000+/month. Inbound leads. Recurring revenue. A team or a product doing the delivery.',
+  },
 ];
 
 // ─── STATE (persisted) ───────────────────────────────────────────────────────
@@ -489,17 +579,16 @@ function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(
 let sChecked   = load('sc_checked', {});
 let acChecked  = load('ac_checked', {});
 let aiChecked  = load('ai_checked', {});
-let ytChecked  = load('yt_checked', {});
 let currentDay = load('current_day', TODAY.getDay());
-let ytPhase    = load('yt_phase', 0);
-let aiWeek     = load('ai_week', 0);
+let aiPhase    = load('ai_phase', 0);
 let currentView = 'schedule';
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
 function getSched(d) {
+  if (d === 0) return SUN;
   if (d === 3) return WED;
-  if (d === 0 || d === 6) return WKD;
+  if (d === 6) return SAT;
   return WD;
 }
 
@@ -529,7 +618,7 @@ function renderHdr() {
 
 function sw(v, btn) {
   currentView = v;
-  ['schedule','youtube','academia','ai','overview','ledger'].forEach(x => {
+  ['schedule','academia','ai','overview','ledger'].forEach(x => {
     document.getElementById('view-'+x).style.display = x===v ? 'block' : 'none';
   });
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -542,20 +631,23 @@ function sw(v, btn) {
 function renderSchedule() {
   renderHdr();
   const isWed = currentDay === 3;
-  const isWkd = currentDay === 0 || currentDay === 6;
+  const isSun = currentDay === 0;
+  const isSat = currentDay === 6;
   const s = getSched(currentDay);
   let h = '';
 
   // Day tabs
   h += `<div class="days">${DAY_SHORT.map((_,i)=>dayTab(i)).join('')}</div>`;
 
-  // Outside tip
-  const tip = isWkd
-    ? 'Weekend: deliberate outing blocked 5:30–7pm. Walk to a café, park, anywhere. Home isolation kills creative energy.'
+  // Context tip
+  const tip = isSun
+    ? 'Sunday: church until 2pm. Rest after. Weekly review at 4pm — what moved, what didn\'t, what changes Monday.'
+    : isSat
+    ? 'Saturday: full gym morning, then your longest deep work block of the week. Evening outing is non-negotiable for energy.'
     : isWed
-    ? 'Wednesday is tighter. Get outside 8–9:30am for your AI block. Walk to a nearby spot.'
-    : 'Get your 8–10am AI block outside. Café or park bench. Breaks the home-drain cycle before your 3pm job.';
-  h += `<div class="banner" style="border-left:3px solid var(--muted)"><div class="banner-lbl">Go outside tip</div><p>${tip}</p></div>`;
+    ? 'Wednesday is tighter. Gym ends at 11am then straight into AI biz work. Meeting at 2pm.'
+    : 'Gym ends at 11am. Get your AI biz block outside immediately after — café or park bench.';
+  h += `<div class="banner" style="border-left:3px solid var(--muted)"><div class="banner-lbl">${isSun?'Sunday rhythm':'Go outside tip'}</div><p>${tip}</p></div>`;
 
   // Blocks
   s.forEach((b, i) => {
@@ -573,15 +665,15 @@ function renderSchedule() {
     </div>`;
   });
 
-  // Tip
+  // Claude tip
   const tips = {
-    0:'Weekend = build time. Ship an automation, batch YouTube, or push academic work.',
+    0:'Sunday: church, rest, weekly review. One question to sit with: what moved this week and why?',
     1:'Monday: run AI biz outreach. Open Claude and draft 20 LinkedIn messages.',
-    2:'Tuesday: YouTube script day. Claude can outline a full faceless video in 5 minutes.',
+    2:'Tuesday: client follow-ups + academia block. Use Claude to draft a supervisor email.',
     3:'Wednesday meeting day. Use Claude to prep talking points in 2 minutes.',
     4:'Thursday: AI build day. Use Claude Code for the current client\'s workflow.',
     5:'Friday: wrap the week. Push GitHub, send follow-ups, review masterplan progress.',
-    6:'Sunday: weekly review. What moved forward? What didn\'t?',
+    6:'Saturday: build day. Use the post-gym energy for your deepest AI biz or academia work.',
   };
   h += `<div class="tip"><div class="tip-lbl" style="color:#378ADD">Claude — today</div><p>${tips[currentDay]}</p></div>`;
 
@@ -600,75 +692,6 @@ function switchDay(d) {
   save('current_day', d);
   renderSchedule();
 }
-
-// ─── YOUTUBE ─────────────────────────────────────────────────────────────────
-
-function renderYouTube() {
-  const ph = YT_PHASES[ytPhase];
-  let h = '';
-
-  // Phase tabs
-  h += `<div class="phase-tabs">${YT_PHASES.map((p,i)=>
-    `<button class="phase-btn ${i===ytPhase?'yt-active':''}" onclick="switchYtPhase(${i})">${p.lbl}</button>`
-  ).join('')}</div>`;
-
-  // Phase card
-  h += `<div class="phase-card">
-    <div class="phase-hdr">
-      <div class="phase-title">${ph.title}</div>
-      <div class="phase-sub">${ph.dates}</div>
-    </div>
-    <div class="phase-goal">Goal: ${ph.goal}</div>`;
-
-  ph.tasks.forEach(t => {
-    const done = !!ytChecked[t.id];
-    h += `<div class="yt-task" onclick="toggleYt('${t.id}')">
-      <div class="tl-chk" style="${done?'background:#EF9F27;border-color:#EF9F27':''}">${done?chkSVG('#0C0C0E'):''}</div>
-      <div class="yt-day">${t.day.replace('\n','<br>')}</div>
-      <div class="yt-info">
-        <div class="yt-title ${done?'done':''}">${t.title}</div>
-        <div class="yt-detail">${t.detail}</div>
-        <div class="yt-dlv">→ ${t.dlv}</div>
-      </div>
-    </div>`;
-  });
-  h += `</div>`;
-
-  // 4 channels
-  h += `<div class="shdr">Your 4 channel niches</div>
-  <div class="grid2">
-    <div class="ch-card"><div class="ch-name">AI &amp; Tech Shorts</div><div class="ch-niche">AI tools, automation, future of work</div></div>
-    <div class="ch-card"><div class="ch-name">Psychology &amp; Mind</div><div class="ch-niche">Mental health, behaviour, neuroscience</div></div>
-    <div class="ch-card"><div class="ch-name">Personal Finance</div><div class="ch-niche">Money, investing, financial literacy</div></div>
-    <div class="ch-card"><div class="ch-name">Legal Essentials</div><div class="ch-niche">Rights, contracts, everyday law</div></div>
-  </div>`;
-
-  // Day 1 command (Week 1 only)
-  if (ytPhase === 0) {
-    h += `<div class="shdr">Day 1 command — paste into Claude Code</div>
-    <div class="code"><span class="cm"># Run this in Claude Code — Saturday May 3</span>
-
-"Create a Python project called content-machine
-with folders: scrapers/, scripts/, videos/,
-captions/, publisher/, analytics/.
-Add a .env.example listing:
-ANTHROPIC_API_KEY, ELEVENLABS_API_KEY,
-PEXELS_API_KEY, YOUTUBE_CLIENT_SECRET,
-TELEGRAM_BOT_TOKEN.
-Install: requests, feedparser, anthropic,
-python-dotenv, sqlite3."</div>`;
-  }
-
-  h += `<div class="tip tip-yt"><div class="tip-lbl" style="color:#EF9F27">Claude Code is your build partner</div>
-    <p>Every stage — scraper, script generator, FFmpeg assembly, Telegram bot, VPS deploy — can be built with Claude Code. Open it, paste the instruction, run the output, paste errors back. That&#39;s the loop.</p>
-    <button class="tip-btn">Build Stage 1 with Claude Code ↗</button>
-  </div>`;
-
-  document.getElementById('view-youtube').innerHTML = h;
-}
-
-function switchYtPhase(i) { ytPhase = i; save('yt_phase', i); renderYouTube(); }
-function toggleYt(id) { ytChecked[id] = !ytChecked[id]; save('yt_checked', ytChecked); renderYouTube(); }
 
 // ─── ACADEMIA ────────────────────────────────────────────────────────────────
 
@@ -758,46 +781,118 @@ function toggleAc(id) { acChecked[id] = !acChecked[id]; save('ac_checked', acChe
 // ─── AI BIZ ──────────────────────────────────────────────────────────────────
 
 function renderAI() {
-  const w = AI_WEEKS[aiWeek];
+  const ph = AI_PHASES[aiPhase];
   let h = '';
 
-  h += `<div class="phase-tabs">${AI_WEEKS.map((wk,i)=>
-    `<button class="phase-btn ${i===aiWeek?'ai-active':''}" style="${i===aiWeek?'background:'+wk.color+';color:#0C0C0E;border-color:'+wk.color:''}" onclick="switchAiWeek(${i})">${wk.lbl}</button>`
+  // Header stats
+  h += `<div class="stats4" style="padding:0.7rem 1rem 0">
+    <div class="stat"><div class="stat-val" style="color:#1D9E75">$7K+</div><div class="stat-lbl">Earned on Upwork</div></div>
+    <div class="stat"><div class="stat-val" style="color:#378ADD">$50/hr</div><div class="stat-lbl">New minimum rate</div></div>
+    <div class="stat"><div class="stat-val" style="color:#EF9F27">3</div><div class="stat-lbl">Case studies live</div></div>
+    <div class="stat"><div class="stat-val" style="color:#D4537E">12mo</div><div class="stat-lbl">To full agency</div></div>
+  </div>`;
+
+  // Phase tabs
+  h += `<div class="phase-tabs">${AI_PHASES.map((p,i)=>
+    `<button class="phase-btn ${i===aiPhase?'ai-active':''}" style="${i===aiPhase?'background:'+p.color+';color:#0C0C0E;border-color:'+p.color:''}" onclick="switchAiPhase(${i})">${p.lbl}</button>`
   ).join('')}</div>`;
 
-  h += `<div class="phase-card" style="border-left-color:${w.color}">
-    <div class="phase-hdr"><div class="phase-title">${w.lbl}: ${w.title}</div></div>
-    <div class="phase-goal" style="color:${w.color}">${w.goal}</div>`;
+  // Phase header
+  h += `<div style="margin:0 1rem 0.5rem;background:var(--surface);border:1px solid var(--border);border-left:3px solid ${ph.color};border-radius:6px;overflow:hidden">
+    <div style="padding:0.6rem 1rem;border-bottom:1px solid var(--border)">
+      <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text)">${ph.lbl}: ${ph.title}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">${ph.period}</div>
+    </div>
+    <div style="padding:0.45rem 1rem;border-bottom:1px solid var(--border);font-size:11px;color:${ph.color}">Goal: ${ph.goal}</div>`;
 
-  w.tasks.forEach(t => {
+  // Two-column checklists
+  h += `<div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border)">
+    <div style="padding:0.5rem 0.7rem;border-right:1px solid var(--border)">
+      <div style="font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:#378ADD;margin-bottom:6px">Upwork Actions</div>`;
+  ph.upwork.forEach(t => {
     const done = !!aiChecked[t.id];
-    h += `<div class="yt-task" onclick="toggleAi('${t.id}')">
-      <div class="tl-chk" style="${done?'background:'+w.color+';border-color:'+w.color:''}">${done?chkSVG('#0C0C0E'):''}</div>
-      <div class="yt-day">${t.day}</div>
-      <div class="yt-title ${done?'done':''}" style="flex:1">${t.title}</div>
+    h += `<div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:5px;cursor:pointer" onclick="toggleAi('${t.id}')">
+      <div style="width:12px;height:12px;border-radius:2px;border:1px solid ${done?ph.color:'var(--dim)'};background:${done?ph.color:'transparent'};flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center">${done?chkSVG('#0C0C0E'):''}</div>
+      <span style="font-size:10px;color:${done?'var(--muted)':'var(--text)'};line-height:1.4;${done?'text-decoration:line-through':''}">${t.text}</span>
+    </div>`;
+  });
+  h += `</div><div style="padding:0.5rem 0.7rem">
+      <div style="font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:#1D9E75;margin-bottom:6px">Business Actions</div>`;
+  ph.biz.forEach(t => {
+    const done = !!aiChecked[t.id];
+    h += `<div style="display:flex;gap:6px;align-items:flex-start;margin-bottom:5px;cursor:pointer" onclick="toggleAi('${t.id}')">
+      <div style="width:12px;height:12px;border-radius:2px;border:1px solid ${done?ph.color:'var(--dim)'};background:${done?ph.color:'transparent'};flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center">${done?chkSVG('#0C0C0E'):''}</div>
+      <span style="font-size:10px;color:${done?'var(--muted)':'var(--text)'};line-height:1.4;${done?'text-decoration:line-through':''}">${t.text}</span>
+    </div>`;
+  });
+  h += `</div></div>`;
+
+  // Rule boxes
+  h += `<div style="display:grid;grid-template-columns:1fr 1fr;gap:0">`;
+  ph.rules.forEach((r, i) => {
+    const border = i < 2 ? 'border-bottom:1px solid var(--border);' : '';
+    const borderR = i % 2 === 0 ? 'border-right:1px solid var(--border);' : '';
+    h += `<div style="padding:0.45rem 0.7rem;${border}${borderR}">
+      <div style="font-size:9px;color:${ph.color};letter-spacing:0.06em;text-transform:uppercase;margin-bottom:2px">${r.lbl}</div>
+      <div style="font-size:10px;color:var(--muted);line-height:1.4">${r.val}</div>
     </div>`;
   });
   h += `</div>`;
 
-  h += `<div class="shdr">30-day success metrics</div>`;
-  [['Outreach messages sent','100+ / 30 days'],
-   ['Audit calls booked','5–10 / 30 days'],
-   ['Proposals sent','3–5 / 30 days'],
-   ['First client closed','1 by day 21'],
-   ['First deal target','$1,500–$3,000'],
-  ].forEach(([l,v]) => {
-    h += `<div class="mrow"><span class="mrow-lbl">${l}</span><span class="mrow-val">${v}</span></div>`;
+  // Exit milestone
+  h += `<div style="padding:0.5rem 1rem;background:${ph.color}18;border-top:1px solid var(--border)">
+    <span style="font-size:9px;color:${ph.color};letter-spacing:0.08em;text-transform:uppercase">Exit milestone  </span>
+    <span style="font-size:11px;color:var(--text)">${ph.exit}</span>
+  </div>`;
+  h += `</div>`;
+
+  // Revenue ladder
+  h += `<div class="shdr">Revenue Ladder</div>`;
+  [
+    ['Phase 1','$0–$500',           'Now',       'First proposals out'],
+    ['Phase 2','$1,500–$3,000',     'Wks 3–8',   'First project closed'],
+    ['Phase 3','$1,000–$2,500/mo',  'Mo 2–4',    'Retainers + Upwork'],
+    ['Phase 4','$3,500–$6,000/mo',  'Mo 4–8',    'Upwork + direct'],
+    ['Phase 5','$10,000+/mo',       'Mo 8–12+',  'Agency or product'],
+  ].forEach(([ph, rev, period, src], i) => {
+    const active = i === aiPhase;
+    h += `<div class="mrow" style="${active?'background:var(--surface2)':''}">
+      <div>
+        <div style="font-size:11px;color:${active?AI_PHASES[i].color:'var(--text)'};font-weight:${active?'600':'400'}">${ph}${active?' ← you are here':''}</div>
+        <div style="font-size:10px;color:var(--muted)">${period} · ${src}</div>
+      </div>
+      <div style="font-size:12px;color:${active?AI_PHASES[i].color:'var(--text)'};font-weight:600;text-align:right">${rev}</div>
+    </div>`;
   });
 
-  h += `<div class="tip" style="margin-top:0.7rem"><div class="tip-lbl" style="color:#378ADD">Claude Code for your AI biz</div>
-    <p>Build automation workflows, write n8n / Make.com configs, debug AI agents, draft proposals and outreach messages.</p>
-    <button class="tip-btn">Design a client workflow ↗</button>
+  // Non-negotiable rules
+  h += `<div class="shdr" style="margin-top:0.5rem">Non-Negotiable Rules</div>`;
+  [
+    'Upwork is a channel, not the business. Use it to fund the business.',
+    'Never drop your rate to win a job. Offer smaller scope instead.',
+    '5 proposals a day, every day — even while delivering a project.',
+    'Every delivered project is a portfolio piece. Document it immediately.',
+    'JSS above 90% is non-negotiable. Never take a job you can\'t deliver excellently.',
+    'Don\'t quit your runway prematurely. 80% income replacement for 3 consecutive months first.',
+    'Never be a hype man. You build things that outlast the hype cycle.',
+  ].forEach(rule => {
+    h += `<div style="display:flex;gap:8px;padding:7px 1rem;border-bottom:1px solid var(--border);align-items:flex-start">
+      <div style="width:4px;height:4px;border-radius:50%;background:${AI_PHASES[aiPhase].color};flex-shrink:0;margin-top:5px"></div>
+      <span style="font-size:11px;color:var(--muted);line-height:1.5">${rule}</span>
+    </div>`;
+  });
+
+  // North star
+  h += `<div style="margin:0.7rem 1rem;background:#0A0A0C;border:1px solid var(--border);border-radius:6px;padding:0.75rem 1rem;text-align:center">
+    <div style="font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">The North Star</div>
+    <div style="font-size:13px;color:var(--text);font-weight:600;line-height:1.5">A business that runs without you having to apply for work.</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5">Inbound leads. Recurring revenue. A team or a product doing the delivery.<br>Upwork got you started. Direct relationships made it real. Systems made it scale.</div>
   </div>`;
 
   document.getElementById('view-ai').innerHTML = h;
 }
 
-function switchAiWeek(i) { aiWeek = i; save('ai_week', i); renderAI(); }
+function switchAiPhase(i) { aiPhase = i; save('ai_phase', i); renderAI(); }
 function toggleAi(id) { aiChecked[id] = !aiChecked[id]; save('ai_checked', aiChecked); renderAI(); }
 
 // ─── OVERVIEW ────────────────────────────────────────────────────────────────
@@ -805,21 +900,19 @@ function toggleAi(id) { aiChecked[id] = !aiChecked[id]; save('ai_checked', aiChe
 function renderOverview() {
   const acT = ACADEMIA.reduce((s,m)=>s+m.tasks.length,0);
   const acD = Object.values(acChecked).filter(Boolean).length;
-  const aiT = AI_WEEKS.reduce((s,w)=>s+w.tasks.length,0);
+  const aiU = AI_PHASES.reduce((s,p)=>s+p.upwork.length+p.biz.length,0);
   const aiD = Object.values(aiChecked).filter(Boolean).length;
-  const ytT = YT_PHASES.reduce((s,p)=>s+p.tasks.length,0);
-  const ytD = Object.values(ytChecked).filter(Boolean).length;
 
   let h = `<div class="stats4">
     <div class="stat"><div class="stat-val" style="color:#D4537E">${acD}/${acT}</div><div class="stat-lbl">Academia tasks</div></div>
-    <div class="stat"><div class="stat-val" style="color:#378ADD">${aiD}/${aiT}</div><div class="stat-lbl">AI biz tasks</div></div>
-    <div class="stat"><div class="stat-val" style="color:#EF9F27">${ytD}/${ytT}</div><div class="stat-lbl">YouTube tasks</div></div>
-    <div class="stat"><div class="stat-val" style="color:#1D9E75">6</div><div class="stat-lbl">Programs targeted</div></div>
+    <div class="stat"><div class="stat-val" style="color:#378ADD">${aiD}/${aiU}</div><div class="stat-lbl">AI biz actions</div></div>
+    <div class="stat"><div class="stat-val" style="color:#1D9E75">$7K+</div><div class="stat-lbl">Upwork earned</div></div>
+    <div class="stat"><div class="stat-val" style="color:#EF9F27">6</div><div class="stat-lbl">Programs targeted</div></div>
   </div>`;
 
   h += `<div class="banner" style="border-left:3px solid #EF9F27">
     <div class="banner-lbl">The honest picture</div>
-    <p>7 parallel tracks: God, AI consulting (30-day client plan), content machine (12 channels, automated), academia (9-month masterplan), self-development, job (6hrs/day). The morning is your fortress. Everything runs on what you protect before 3pm.</p>
+    <p>5 parallel tracks: God, AI automation business (Upwork + direct, 12-month agency roadmap), academia (9-month masterplan, Nigeria mission), self-development, job (6hrs/day). Gym Mon–Sat. Church Sunday. The morning is your fortress.</p>
   </div>`;
 
   h += `<div class="shdr">Target programs</div>`;
@@ -874,8 +967,8 @@ function renderOverview() {
 
 function resetAll() {
   if (!confirm('Reset all checkboxes? This cannot be undone.')) return;
-  sChecked = {}; acChecked = {}; aiChecked = {}; ytChecked = {};
-  ['sc_checked','ac_checked','ai_checked','yt_checked'].forEach(k => localStorage.removeItem(k));
+  sChecked = {}; acChecked = {}; aiChecked = {};
+  ['sc_checked','ac_checked','ai_checked'].forEach(k => localStorage.removeItem(k));
   renders[currentView]();
 }
 
@@ -1436,7 +1529,7 @@ function ldgPurchases(now) {
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
 
-const renders = {schedule:renderSchedule, youtube:renderYouTube, academia:renderAcademia, ai:renderAI, overview:renderOverview, ledger:renderLedger};
+const renders = {schedule:renderSchedule, academia:renderAcademia, ai:renderAI, overview:renderOverview, ledger:renderLedger};
 
 renderHdr();
 renderSchedule();
